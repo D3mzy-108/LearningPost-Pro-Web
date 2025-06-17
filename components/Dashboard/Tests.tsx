@@ -1,14 +1,26 @@
 import { DOMAIN } from "@/utils/urls";
 
-export default function Tests({ tests }: { tests: [] }) {
+export default function Tests({
+  tests,
+  showDetailsComponent,
+}: {
+  tests: [];
+  showDetailsComponent: (child: React.ReactElement) => void;
+}) {
   return (
-    <section className="w-full py-4 px-6 bg-transparent rounded-xl backdrop-blur-md shadow-md">
+    <section className="w-full py-4 px-6 bg-transparent rounded-xl backdrop-blur-sm">
       <h3 className="text-black/70 text-md font-bold w-full">Upcoming Tests</h3>
 
       <div className="w-full mt-4">
         <div className="w-full flex flex-col gap-4">
           {tests.map((test) => {
-            return <TestCard test={test} key={test["testid"]} />;
+            return (
+              <TestCard
+                test={test}
+                showDetailsComponent={showDetailsComponent}
+                key={test["testid"]}
+              />
+            );
           })}
         </div>
       </div>
@@ -16,15 +28,22 @@ export default function Tests({ tests }: { tests: [] }) {
   );
 }
 
-function TestCard({ test }: { test: any }) {
+function TestCard({
+  test,
+  showDetailsComponent,
+}: {
+  test: any;
+  showDetailsComponent: (child: React.ReactElement) => void;
+}) {
   const doNotAllowInteraction = test["is_locked"] && !test["is_attempted"];
   const testAttempted = test["is_attempted"];
 
   function startTestOrShowResults() {
     if (testAttempted) {
       // TODO: DISPLAY THE RESULTS OF THE TEST
+      showDetailsComponent(<p>TEST RESULTS {test["title"]}</p>);
     } else {
-      // TODO: START THE TEST
+      showDetailsComponent(<p>This is Drawer {test["title"]}</p>);
     }
   }
 

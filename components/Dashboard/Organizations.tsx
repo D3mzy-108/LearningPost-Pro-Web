@@ -38,7 +38,7 @@ export default function Organizations({
 
   return (
     <>
-      <section className="w-full py-4 px-6 bg-transparent rounded-xl backdrop-blur-md shadow-md">
+      <section className="w-full py-4 px-6 bg-transparent rounded-xl backdrop-blur-sm">
         <h3 className="text-black/70 text-md font-bold w-full">
           Followed Groups
         </h3>

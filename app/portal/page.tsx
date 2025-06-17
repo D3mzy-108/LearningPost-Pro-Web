@@ -5,6 +5,7 @@ import Header from "@/components/Dashboard/Header";
 import Organizations from "@/components/Dashboard/Organizations";
 import Tests from "@/components/Dashboard/Tests";
 import Message, { addMessage, MessageObject } from "@/components/MessageDIalog";
+import Drawer from "@/components/PopUps/Drawer";
 import http from "@/utils/http";
 import { getStoredItem } from "@/utils/local_storage_utils";
 import { PRO_BOOKS_URL, PRO_QUESTS_URL, PRO_TESTS_URL } from "@/utils/urls";
@@ -17,6 +18,9 @@ export default function Dashboard() {
   const [organizations, setOrganizations] = useState<[]>([]);
   const [books, setBooks] = useState<[]>([]);
   const [tests, setTests] = useState<[]>([]);
+  const [showDrawer, setShowDrawer] = useState<boolean>(false);
+  const [drawerChild, setDrawerChild] = useState<React.ReactElement>(<></>);
+
   useEffect(() => {
     async function loadPageData() {
       const user = getStoredItem("user");
@@ -62,19 +66,46 @@ export default function Dashboard() {
     loadPageData();
   }, []);
 
+  function updateDrawerState(newDrawerChild: React.ReactElement) {
+    setDrawerChild(newDrawerChild);
+    setShowDrawer(true);
+  }
+
   return (
-    <>
-      <div className="w-full p-3 flex flex-col gap-6">
+    <div className="relative">
+      <div className="w-full h-screen overflow-auto">
         <Header />
-        <Organizations
-          organizations={organizations}
-          setMessages={setMessages}
-        />
-        <Courses quests={quests} />
-        <Books books={books} />
-        <Tests tests={tests} />
+        <div className="w-full p-3 mt-3 flex flex-col gap-6">
+          <Organizations
+            organizations={organizations}
+            setMessages={setMessages}
+          />
+          <Courses
+            quests={quests}
+            showDetailsComponent={(child: React.ReactElement) => {
+              updateDrawerState(child);
+            }}
+          />
+          <Books
+            books={books}
+            showDetailsComponent={(child: React.ReactElement) => {
+              updateDrawerState(child);
+            }}
+          />
+          <Tests
+            tests={tests}
+            showDetailsComponent={(child: React.ReactElement) => {
+              updateDrawerState(child);
+            }}
+          />
+        </div>
       </div>
       <Message messages={messages} setMessages={setMessages} />
-    </>
+      <Drawer
+        showDrawer={showDrawer}
+        setShowDrawer={setShowDrawer}
+        child={drawerChild}
+      />
+    </div>
   );
 }

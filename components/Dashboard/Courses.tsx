@@ -1,14 +1,32 @@
 import { DOMAIN } from "@/utils/urls";
+import React from "react";
 
-export default function Courses({ quests }: { quests: [] }) {
+export default function Courses({
+  quests,
+  showDetailsComponent,
+}: {
+  quests: [];
+  showDetailsComponent: (child: React.ReactElement) => void;
+}) {
   return (
-    <section className="w-full py-4 px-6 bg-transparent rounded-xl backdrop-blur-md shadow-md">
+    <section className="w-full py-4 px-6 bg-transparent rounded-xl backdrop-blur-sm">
       <h3 className="text-black/70 text-md font-bold w-full">Your Courses</h3>
 
       <div className="w-full mt-4">
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {quests.map((quest) => {
-            return <CourseCard quest={quest} key={quest["testid"]} />;
+            return (
+              <button
+                type="button"
+                key={quest["testid"]}
+                className="cursor-pointer border-none bg-transparent text-start"
+                onClick={() =>
+                  showDetailsComponent(<p>This is Drawer {quest["title"]}</p>)
+                }
+              >
+                <CourseCard quest={quest} />
+              </button>
+            );
           })}
         </div>
       </div>

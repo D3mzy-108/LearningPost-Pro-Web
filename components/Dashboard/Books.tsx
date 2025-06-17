@@ -1,14 +1,31 @@
 import { DOMAIN } from "@/utils/urls";
 
-export default function Books({ books }: { books: [] }) {
+export default function Books({
+  books,
+  showDetailsComponent,
+}: {
+  books: [];
+  showDetailsComponent: (child: React.ReactElement) => void;
+}) {
   return (
-    <section className="w-full py-4 px-6 bg-transparent rounded-xl backdrop-blur-md shadow-md">
+    <section className="w-full py-4 px-6 bg-transparent rounded-xl backdrop-blur-sm">
       <h3 className="text-black/70 text-md font-bold w-full">Your Books</h3>
 
       <div className="w-full mt-4">
         <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-4">
           {books.map((book) => {
-            return <BookCover book={book} key={book["bookid"]} />;
+            return (
+              <button
+                type="button"
+                key={book["bookid"]}
+                className="cursor-pointer border-none bg-transparent text-start"
+                onClick={() =>
+                  showDetailsComponent(<p>This is Drawer {book["title"]}</p>)
+                }
+              >
+                <BookCover book={book} />;
+              </button>
+            );
           })}
         </div>
       </div>
