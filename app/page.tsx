@@ -1,95 +1,109 @@
+"use client";
 import Image from "next/image";
-import styles from "./page.module.css";
+import logo from "@/assets/images/logo.png";
+import PrimaryBtn from "@/components/Buttons/PrimaryBtn";
+import React, { useEffect, useState } from "react";
+import { LOGIN_URL } from "@/utils/urls";
+import http from "@/utils/http";
+import Message, { addMessage, MessageObject } from "@/components/MessageDIalog";
+import { storeItem } from "@/utils/local_storage_utils";
+import { __isLastLoginToday } from "@/utils/auth";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const [messages, setMessages] = useState<MessageObject[]>([]);
+  const router = useRouter();
+
+  async function login(e: React.FormEvent) {
+    e.preventDefault();
+    try {
+      const formData = new FormData(e.target as HTMLFormElement);
+      const email = (formData.get("email") ?? "").toString();
+      const password = (formData.get("password") ?? "").toString();
+      const data = await http.post(LOGIN_URL, {
+        email: email,
+        password: password,
+      });
+
+      setMessages(
+        addMessage(messages, {
+          id: "",
+          success: data.success,
+          messageTxt: data.message,
+        })
+      );
+
+      if (data.success) {
+        storeItem("user", data.data.user);
+        router.push("/portal");
+      }
+    } catch (e) {
+      setMessages(
+        addMessage(messages, {
+          id: "",
+          success: false,
+          messageTxt: "Request failed.",
+        })
+      );
+    }
+  }
+
+  useEffect(() => {
+    function autoLogin() {
+      const loginSessionActive = __isLastLoginToday();
+      if (loginSessionActive) {
+        router.push("/portal");
+      }
+    }
+
+    autoLogin();
+  }, []);
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <>
+      <section className="w-full bg-white min-h-screen lg:p-12">
+        <div className="w-full max-w-lg py-6 px-2">
+          <Image
+            src={logo}
+            alt="LearningPost Logo"
+            width={220.0}
+            // className="mx-auto"
+          />
+          <form
+            method="post"
+            onSubmit={(e) => {
+              login(e);
+            }}
+            className="px-3 mt-3 flex flex-col gap-4"
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
+            <input
+              type="email"
+              name="email"
+              id="email"
+              className="w-full bg-gray-200 rounded-lg py-4 px-4 text-black/80 placeholder:text-black/60"
+              placeholder="Email Address:"
+              required
             />
-          </a>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              className="w-full bg-gray-200 rounded-lg py-4 px-4 text-black/80 placeholder:text-black/60"
+              placeholder="Password:"
+              required
+            />
+            <div className="w-4/6 mx-auto mt-2">
+              <PrimaryBtn
+                type="submit"
+                textContent="Login"
+                btnWidth="w-full"
+                onClick={() => {}}
+              />
+            </div>
+          </form>
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      </section>
+      <Message messages={messages} setMessages={setMessages} />
+    </>
   );
 }
