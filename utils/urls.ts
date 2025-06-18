@@ -11,3 +11,6 @@ export const PRO_BOOKS_URL = (username: string) => {
 export const PRO_TESTS_URL = (username: string) => {
   return `${DOMAIN}/professional/get-tests/${username}/`;
 };
+export const BOOK_CHAPTERS_URL = (username: string, bookId: string) => {
+  return `${DOMAIN}/api/${username}/book/${bookId}/chapters/`;
+};

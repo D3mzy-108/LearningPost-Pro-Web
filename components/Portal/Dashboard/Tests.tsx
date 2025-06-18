@@ -1,4 +1,5 @@
 import { DOMAIN } from "@/utils/urls";
+import ConfirmStartTest from "../Test/ConfirmStartTest";
 
 export default function Tests({
   tests,
@@ -43,7 +44,7 @@ function TestCard({
       // TODO: DISPLAY THE RESULTS OF THE TEST
       showDetailsComponent(<p>TEST RESULTS {test["title"]}</p>);
     } else {
-      showDetailsComponent(<p>This is Drawer {test["title"]}</p>);
+      showDetailsComponent(<ConfirmStartTest test={test} />);
     }
   }
 
@@ -52,7 +53,7 @@ function TestCard({
       className={`${
         doNotAllowInteraction ? "opacity-50 pointer-events-none" : ""
       }
-        w-full max-w-lg bg-white/40 rounded-lg p-4 flex items-center gap-2`}
+        w-full max-w-lg bg-white/40 rounded-lg p-4 flex max-sm:flex-col items-end sm:items-center gap-2`}
       style={{
         border: "1px solid #eee",
         transition: "transform 0.3s ease-in-out",

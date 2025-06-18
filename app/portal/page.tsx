@@ -1,9 +1,9 @@
 "use client";
-import Books from "@/components/Dashboard/Books";
-import Courses from "@/components/Dashboard/Courses";
-import Header from "@/components/Dashboard/Header";
-import Organizations from "@/components/Dashboard/Organizations";
-import Tests from "@/components/Dashboard/Tests";
+import Books from "@/components/Portal/Dashboard/Books";
+import Courses from "@/components/Portal/Dashboard/Courses";
+import Header from "@/components/Portal/Dashboard/Header";
+import Organizations from "@/components/Portal/Dashboard/Organizations";
+import Tests from "@/components/Portal/Dashboard/Tests";
 import Message, { addMessage, MessageObject } from "@/components/MessageDIalog";
 import Drawer from "@/components/PopUps/Drawer";
 import http from "@/utils/http";

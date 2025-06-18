@@ -1,10 +1,10 @@
 import { DOMAIN, JOIN_ORGANIZATION_URL } from "@/utils/urls";
 import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
-import PrimaryBtn from "../Buttons/PrimaryBtn";
+import PrimaryBtn from "../../Buttons/PrimaryBtn";
 import http from "@/utils/http";
 import { getStoredItem } from "@/utils/local_storage_utils";
 import { useRouter } from "next/navigation";
-import { addMessage, MessageObject } from "../MessageDIalog";
+import { addMessage, MessageObject } from "../../MessageDIalog";
 
 export default function Organizations({
   organizations,

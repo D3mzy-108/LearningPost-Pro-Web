@@ -1,4 +1,5 @@
 import { DOMAIN } from "@/utils/urls";
+import BookDetails from "../Books/BookDetails";
 
 export default function Books({
   books,
@@ -20,10 +21,10 @@ export default function Books({
                 key={book["bookid"]}
                 className="cursor-pointer border-none bg-transparent text-start"
                 onClick={() =>
-                  showDetailsComponent(<p>This is Drawer {book["title"]}</p>)
+                  showDetailsComponent(<BookDetails book={book} />)
                 }
               >
-                <BookCover book={book} />;
+                <BookCover book={book} />
               </button>
             );
           })}

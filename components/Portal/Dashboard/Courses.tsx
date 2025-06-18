@@ -1,5 +1,6 @@
 import { DOMAIN } from "@/utils/urls";
 import React from "react";
+import QuestDetails from "../Quest/QuestDetails";
 
 export default function Courses({
   quests,
@@ -21,7 +22,7 @@ export default function Courses({
                 key={quest["testid"]}
                 className="cursor-pointer border-none bg-transparent text-start"
                 onClick={() =>
-                  showDetailsComponent(<p>This is Drawer {quest["title"]}</p>)
+                  showDetailsComponent(<QuestDetails quest={quest} />)
                 }
               >
                 <CourseCard quest={quest} />

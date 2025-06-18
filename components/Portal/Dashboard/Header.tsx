@@ -3,6 +3,7 @@ import { getStoredItem } from "@/utils/local_storage_utils";
 export default function Header({}) {
   function getUserName(): string {
     const user = getStoredItem("user");
+    if (user["first_name"] == null) return "";
     return `${user.first_name.charAt(0)}. ${user.last_name}`;
   }
   return (
