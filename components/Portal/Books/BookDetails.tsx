@@ -3,9 +3,11 @@ import PrimaryBtn from "@/components/Buttons/PrimaryBtn";
 import http from "@/utils/http";
 import { getStoredItem } from "@/utils/local_storage_utils";
 import { BOOK_CHAPTERS_URL, DOMAIN } from "@/utils/urls";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function BookDetails({ book }: { book: any }) {
+  const router = useRouter();
   const tabs = [
     {
       tag: "Summary",
@@ -24,6 +26,10 @@ export default function BookDetails({ book }: { book: any }) {
   ];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [chapters, setChapters] = useState<[]>([]);
+
+  function __readBook(chapter: any) {
+    router.push(`/portal/book-reader/${chapter["title"]}?f=${chapter["file"]}`);
+  }
 
   useEffect(() => {
     async function loadChapters() {
@@ -116,7 +122,7 @@ export default function BookDetails({ book }: { book: any }) {
                   type="button"
                   btnWidth="w-fit"
                   textContent="Read"
-                  onClick={() => {}}
+                  onClick={() => __readBook(chapter)}
                 />
               </li>
             );
