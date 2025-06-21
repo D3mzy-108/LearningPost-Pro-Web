@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import loadingImg from "@/assets/images/loading.png";
+import { Contents } from "epubjs";
 
 // Dynamically import ReactReader to ensure it's only loaded on the client-side.
 // This is essential because epub.js (which react-reader uses) interacts with the DOM
@@ -73,19 +74,22 @@ export default function BookReader({
             <Image src={loadingImg} alt="Loading..." width={300} height={300} />
           </div>
         }
-        getRendition={(rendition) => {
-          rendition.on("started", () => {
-            console.log("Rendition has started.");
-          });
-          rendition.on("rendered", (section: any) => {
-            console.log("Section rendered:", section);
-          });
-          rendition.on("relocated", (location: any) => {
-            console.log("Rendition relocated to:", location.start.cfi);
-          });
-          rendition.on("error", (err: any) => {
-            handleError(err);
-          });
+        // getRendition={(rendition) => {
+        //   rendition.on("started", () => {
+        //     console.log("Rendition has started.");
+        //   });
+        //   rendition.on("rendered", (section: any) => {
+        //     console.log("Section rendered:", section);
+        //   });
+        //   rendition.on("relocated", (location: any) => {
+        //     console.log("Rendition relocated to:", location.start.cfi);
+        //   });
+        //   rendition.on("error", (err: any) => {
+        //     handleError(err);
+        //   });
+        // }}
+        handleTextSelected={(text: string) => {
+          console.log("selected text:", text);
         }}
         epubOptions={{
           flow: "paginated",

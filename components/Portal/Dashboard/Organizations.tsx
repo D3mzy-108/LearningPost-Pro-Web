@@ -1,19 +1,18 @@
 import { DOMAIN, JOIN_ORGANIZATION_URL } from "@/utils/urls";
-import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import PrimaryBtn from "../../Buttons/PrimaryBtn";
 import http from "@/utils/http";
 import { getStoredItem } from "@/utils/local_storage_utils";
 import { useRouter } from "next/navigation";
-import { addMessage, MessageObject } from "../../MessageDIalog";
+import { useToast } from "@/context/ToastContext";
 
 export default function Organizations({
   organizations,
-  setMessages,
 }: {
   organizations: [];
-  setMessages: Dispatch<SetStateAction<MessageObject[]>>;
 }) {
   const router = useRouter();
+  const { showToast } = useToast();
   const [showAddGroup, setShowAddGroup] = useState<boolean>(false);
 
   async function joinGroup(e: FormEvent) {
@@ -27,13 +26,7 @@ export default function Organizations({
     if (data.success) {
       router.refresh();
     }
-    setMessages(
-      addMessage([], {
-        id: "",
-        success: data.success,
-        messageTxt: data.message,
-      })
-    );
+    showToast(data.message, data.success ? "success" : "error");
   }
 
   return (

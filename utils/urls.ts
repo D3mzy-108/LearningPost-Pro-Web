@@ -1,5 +1,5 @@
 export const DOMAIN = "http://localhost:2002";
-// export const DOMAIN = "https://api.learningpost.ng";
+// DOMAIN="https://api.learningpost.ng";
 export const LOGIN_URL = `${DOMAIN}/professional/professional-login/`;
 export const JOIN_ORGANIZATION_URL = `${DOMAIN}/professional/join-organization/`;
 export const PRO_QUESTS_URL = (username: string) => {
@@ -13,4 +13,7 @@ export const PRO_TESTS_URL = (username: string) => {
 };
 export const BOOK_CHAPTERS_URL = (username: string, bookId: string) => {
   return `${DOMAIN}/api/${username}/book/${bookId}/chapters/`;
+};
+export const GET_QUEST_QUESTIONS = (testId: string, username: string) => {
+  return `${DOMAIN}/api/quest/${testId}/get-questions/${username}/`;
 };

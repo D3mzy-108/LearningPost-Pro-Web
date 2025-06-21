@@ -2,17 +2,17 @@
 import Image from "next/image";
 import logo from "@/assets/images/logo.png";
 import PrimaryBtn from "@/components/Buttons/PrimaryBtn";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { LOGIN_URL } from "@/utils/urls";
 import http from "@/utils/http";
-import Message, { addMessage, MessageObject } from "@/components/MessageDIalog";
 import { storeItem } from "@/utils/local_storage_utils";
 import { __isLastLoginToday } from "@/utils/auth";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/context/ToastContext";
 
 export default function Home() {
-  const [messages, setMessages] = useState<MessageObject[]>([]);
   const router = useRouter();
+  const { showToast } = useToast();
 
   async function login(e: React.FormEvent) {
     e.preventDefault();
@@ -25,26 +25,15 @@ export default function Home() {
         password: password,
       });
 
-      setMessages(
-        addMessage(messages, {
-          id: "",
-          success: data.success,
-          messageTxt: data.message,
-        })
-      );
+      showToast(data.message, data.success ? "success" : "error");
+      console.log("----");
 
       if (data.success) {
         storeItem("user", data.data.user);
         router.push("/portal");
       }
     } catch (e) {
-      setMessages(
-        addMessage(messages, {
-          id: "",
-          success: false,
-          messageTxt: "Request failed.",
-        })
-      );
+      showToast("Failed to connect to service provider.", "error");
     }
   }
 
@@ -103,7 +92,7 @@ export default function Home() {
           </form>
         </div>
       </section>
-      <Message messages={messages} setMessages={setMessages} />
+      {/* <Message messages={messages} setMessages={setMessages} /> */}
     </>
   );
 }

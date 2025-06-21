@@ -37,7 +37,7 @@ export default function Drawer({
         show ? "block" : "hidden"
       } w-screen h-screen fixed top-0 left-0 z-[1000] bg-black/30 slide-in`}
     >
-      <div className="w-full max-w-sm h-screen overflow-auto bg-white shadow-md p-3 ml-auto target">
+      <div className="w-full max-w-sm h-screen overflow-auto bg-gray-100 shadow-md p-3 ml-auto target">
         <div className="w-full text-start">
           <button
             type="button"
@@ -49,7 +49,7 @@ export default function Drawer({
             &times;
           </button>
         </div>
-        <div className="w-full p-3 mt-2">{child}</div>
+        <div className="w-full py-3 px-2 mt-2">{child}</div>
       </div>
     </div>
   );

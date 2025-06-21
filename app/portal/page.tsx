@@ -4,16 +4,16 @@ import Courses from "@/components/Portal/Dashboard/Courses";
 import Header from "@/components/Portal/Dashboard/Header";
 import Organizations from "@/components/Portal/Dashboard/Organizations";
 import Tests from "@/components/Portal/Dashboard/Tests";
-import Message, { addMessage, MessageObject } from "@/components/MessageDIalog";
 import Drawer from "@/components/PopUps/Drawer";
 import http from "@/utils/http";
 import { getStoredItem } from "@/utils/local_storage_utils";
 import { PRO_BOOKS_URL, PRO_QUESTS_URL, PRO_TESTS_URL } from "@/utils/urls";
 import React from "react";
 import { useEffect, useState } from "react";
+import { useToast } from "@/context/ToastContext";
 
 export default function Dashboard() {
-  const [messages, setMessages] = useState<MessageObject[]>([]);
+  const { showToast } = useToast();
   const [quests, setQuests] = useState<[]>([]);
   const [organizations, setOrganizations] = useState<[]>([]);
   const [books, setBooks] = useState<[]>([]);
@@ -29,37 +29,19 @@ export default function Dashboard() {
         setQuests(data.data.quests);
         setOrganizations(data.data.organizations);
       } else {
-        setMessages(
-          addMessage(messages, {
-            id: "",
-            success: false,
-            messageTxt: data.message,
-          })
-        );
+        showToast(data.message, "error");
       }
       const data2 = await http.get(PRO_BOOKS_URL(`${user.username ?? ""}`));
       if (data2.success) {
         setBooks(data2.data.books);
       } else {
-        setMessages(
-          addMessage(messages, {
-            id: "",
-            success: false,
-            messageTxt: data.message,
-          })
-        );
+        showToast(data2.message, "error");
       }
       const data3 = await http.get(PRO_TESTS_URL(`${user.username ?? ""}`));
       if (data3.success) {
         setTests(data3.data.tests);
       } else {
-        setMessages(
-          addMessage(messages, {
-            id: "",
-            success: false,
-            messageTxt: data.message,
-          })
-        );
+        showToast(data3.message, "error");
       }
     }
 
@@ -76,10 +58,7 @@ export default function Dashboard() {
       <div className="w-full h-screen overflow-auto">
         <Header />
         <div className="w-full p-3 mt-3 flex flex-col gap-6">
-          <Organizations
-            organizations={organizations}
-            setMessages={setMessages}
-          />
+          <Organizations organizations={organizations} />
           <Courses
             quests={quests}
             showDetailsComponent={(child: React.ReactElement) => {
@@ -100,7 +79,6 @@ export default function Dashboard() {
           />
         </div>
       </div>
-      <Message messages={messages} setMessages={setMessages} />
       <Drawer
         showDrawer={showDrawer}
         setShowDrawer={setShowDrawer}
