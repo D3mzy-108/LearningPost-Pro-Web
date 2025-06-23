@@ -13,7 +13,7 @@ export default function QuestDetails({ quest }: { quest: any }) {
       return 0;
     } else {
       try {
-        return (answered / questions) * 100;
+        return Math.floor((answered / questions) * 100);
       } catch (error) {
         return 0;
       }
@@ -48,7 +48,9 @@ export default function QuestDetails({ quest }: { quest: any }) {
             btnWidth="w-fit"
             textContent="Start"
             onClick={() => {
-              router.push(`/portal/practice-quest?id=${quest["testid"]}`);
+              router.push(
+                `/portal/practice-quest?id=${quest["testid"]}&time=${quest["time"]}`
+              );
             }}
           />
         </div>

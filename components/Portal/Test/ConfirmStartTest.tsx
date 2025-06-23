@@ -1,7 +1,12 @@
+"use client";
 import PrimaryBtn from "@/components/Buttons/PrimaryBtn";
+import { useRouter } from "next/navigation";
 
 export default function ConfirmStartTest({ test }: { test: any }) {
-  function startTest() {}
+  const router = useRouter();
+  function startTest() {
+    router.push(`/portal/take-test?id=${test["testid"]}&time=${test["time"]}`);
+  }
 
   return (
     <>

@@ -7,6 +7,14 @@
   --primary: #6082B6;
 }
 
+* {
+  user-select: none;
+}
+
+.selectable {
+  user-select: text;
+}
+
 html {
   overflow: hidden auto;
 }

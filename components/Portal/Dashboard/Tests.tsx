@@ -1,5 +1,6 @@
 import { DOMAIN } from "@/utils/urls";
 import ConfirmStartTest from "../Test/ConfirmStartTest";
+import TestScore from "../Test/TestResults";
 
 export default function Tests({
   tests,
@@ -42,7 +43,7 @@ function TestCard({
   function startTestOrShowResults() {
     if (testAttempted) {
       // TODO: DISPLAY THE RESULTS OF THE TEST
-      showDetailsComponent(<p>TEST RESULTS {test["title"]}</p>);
+      showDetailsComponent(<TestScore test={test} />);
     } else {
       showDetailsComponent(<ConfirmStartTest test={test} />);
     }

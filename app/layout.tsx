@@ -3,7 +3,7 @@ import "./globals.css";
 import { ToastProvider } from "@/context/ToastContext";
 
 export const metadata: Metadata = {
-  title: "LearningPost Pro | Login",
+  title: "LearningPost Pro",
   description: "",
 };
 

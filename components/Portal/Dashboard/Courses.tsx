@@ -44,7 +44,7 @@ function CourseCard({ quest }: { quest: any }) {
       return 0;
     } else {
       try {
-        return (answered / questions) * 100;
+        return Math.floor((answered / questions) * 100);
       } catch (error) {
         return 0;
       }

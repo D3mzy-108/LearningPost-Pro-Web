@@ -5,16 +5,23 @@ export default function QuestionComponent({
   question,
   currentQuestion,
   questionCount,
+  timeLeft,
 }: {
   question: Question;
   currentQuestion: number;
   questionCount: number;
+  timeLeft: string;
 }) {
   return (
     <div className="py-4 px-4">
-      <span className="font-medium text-black/60">
-        Question {currentQuestion} of {questionCount}:
-      </span>
+      <div className="w-full flex justify-between">
+        <span className="font-medium text-black/60">
+          Question {currentQuestion} of {questionCount}:
+        </span>
+
+        {/* Timer Display */}
+        <span className={"text-gray-700 text-sm"}>{timeLeft}</span>
+      </div>
       <div
         className="w-full mt-2 text-lg text-black/80"
         style={{

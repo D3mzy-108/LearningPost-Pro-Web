@@ -50,3 +50,38 @@
         opacity: 0;
     }
 }
+
+/* ============================================================================ */
+/* BOTTOM SHEET ANIMATION */
+/* ============================================================================ */
+.slide-up .target {
+    animation: slide-up .3s linear;
+}
+
+.slide-down .target {
+    animation: slide-down .3s linear;
+}
+
+@keyframes slide-up {
+    from {
+        transform: translateY(300px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-down {
+    from {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(300px);
+        opacity: 0;
+    }
+}

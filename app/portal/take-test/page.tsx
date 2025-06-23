@@ -5,11 +5,11 @@ import QuizScreen, {
 import { useToast } from "@/context/ToastContext";
 import http from "@/utils/http";
 import { getStoredItem } from "@/utils/local_storage_utils";
-import { GET_QUEST_QUESTIONS } from "@/utils/urls";
+import { GET_TEST_QUESTIONS } from "@/utils/urls";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function PracticeQuest() {
+export default function TakeTest() {
   const router = useRouter();
   const { showToast } = useToast();
   const searchParams = useSearchParams();
@@ -35,10 +35,7 @@ export default function PracticeQuest() {
     }
 
     async function fetchQuestions() {
-      const user = getStoredItem("user");
-      const response = await http.get(
-        GET_QUEST_QUESTIONS(__testId ?? "", user.username)
-      );
+      const response = await http.get(GET_TEST_QUESTIONS(__testId ?? ""));
       if (response.success) {
         if (response.data.questions.length === 0) {
           router.push("/portal");
@@ -47,17 +44,17 @@ export default function PracticeQuest() {
           setQuestions(
             (response.data.questions as []).map((q: any) => {
               return {
-                questionId: q["questionid"] || "",
-                comprehension: q["comprehension"] || "",
-                diagram: q["diagram"] || "",
-                question: q["question"] || "",
-                optionA: q["a"] || "",
-                optionB: q["b"] || "",
-                optionC: q["c"] || "",
-                optionD: q["d"] || "",
-                answer: q["answer"] || "",
-                explanation: q["explanation"] || "",
-                topic: q["topic"] || "",
+                questionId: q["questionid"] ?? "",
+                comprehension: q["comprehension"] ?? "",
+                diagram: q["diagram"] ?? "",
+                question: q["question"] ?? "",
+                optionA: q["a"] ?? "",
+                optionB: q["b"] ?? "",
+                optionC: q["c"] ?? "",
+                optionD: q["d"] ?? "",
+                answer: q["answer"] ?? "",
+                explanation: q["explanation"] ?? "",
+                topic: q["topic"] ?? "",
               };
             })
           );
@@ -79,7 +76,7 @@ export default function PracticeQuest() {
           questions={questions}
           time={parseInt(__time ?? "40")}
           testId={__testId ?? "0"}
-          isCBTMode={false}
+          isCBTMode={true}
         />
       </div>
     </>
