@@ -208,13 +208,6 @@ export default function QuizScreen({
 
   return (
     <div className="w-full h-screen overflow-auto flex max-lg:flex-col lg:justify-center max-lg:items-center md:p-4 md:gap-4 font-inter">
-      {/* Tailwind CSS CDN */}
-      <script src="https://cdn.tailwindcss.com"></script>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-      />
-
       <div className="w-full max-w-2xl">
         <QuestProgress
           progress={((__currentQuestionIndex + 1) / questions.length) * 100}

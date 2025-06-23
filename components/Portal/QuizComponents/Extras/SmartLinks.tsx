@@ -62,11 +62,13 @@ function ContextMenu({
     >
       {/* Display selected text snippet */}
       <div className="px-3 py-2 text-xs text-gray-500 font-semibold border-b border-gray-200 truncate">
-        "
-        {selectedText.length > 20
-          ? selectedText.substring(0, 17) + "..."
-          : selectedText}
-        "
+        {`"
+        ${
+          selectedText.length > 20
+            ? selectedText.substring(0, 17) + "..."
+            : selectedText
+        }
+        "`}
       </div>
       {/* Menu Options */}
       <button
@@ -87,11 +89,13 @@ function ContextMenu({
             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
           />
         </svg>
-        SmartLink "
-        {selectedText.length > 10
-          ? selectedText.substring(0, 7) + "..."
-          : selectedText}
-        "
+        {`SmartLink "
+        ${
+          selectedText.length > 10
+            ? selectedText.substring(0, 7) + "..."
+            : selectedText
+        }
+        "`}
       </button>
     </div>
   );

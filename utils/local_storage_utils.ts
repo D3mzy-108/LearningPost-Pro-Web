@@ -3,8 +3,12 @@ export function storeItem(key: string, value: any) {
 }
 
 export function getStoredItem(key: string) {
-  const item = localStorage.getItem(key);
-  return JSON.parse(item ?? "{}");
+  if (typeof window !== "undefined") {
+    const item = localStorage.getItem(key);
+    return JSON.parse(item ?? "{}");
+  } else {
+    return {};
+  }
 }
 
 export function clearStorage() {
