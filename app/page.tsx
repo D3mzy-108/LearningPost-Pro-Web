@@ -46,7 +46,7 @@ export default function Home() {
     }
 
     autoLogin();
-  }, []);
+  }, [router]);
 
   return (
     <>

@@ -70,7 +70,7 @@ export default function PracticeQuest() {
 
     validateScreenParams();
     fetchQuestions();
-  }, []);
+  }, [__testId, router, showToast]);
 
   return (
     <>

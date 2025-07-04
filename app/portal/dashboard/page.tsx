@@ -53,7 +53,7 @@ export default function Dashboard() {
     }
 
     loadPageData();
-  }, []);
+  }, [showToast, trackCode]);
 
   function updateDrawerState(newDrawerChild: React.ReactElement) {
     setDrawerChild(newDrawerChild);

@@ -67,7 +67,7 @@ export default function TakeTest() {
 
     validateScreenParams();
     fetchQuestions();
-  }, []);
+  }, [__testId, router, showToast]);
 
   return (
     <>

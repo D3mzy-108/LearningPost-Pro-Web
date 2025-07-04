@@ -30,7 +30,7 @@ export default function ReadBook() {
     }
 
     validateScreenParams();
-  }, []);
+  }, [file, router, showToast, title]);
 
   return <BookReader title={`${title}`} file={`${DOMAIN}${file}`} />;
 }

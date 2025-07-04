@@ -55,11 +55,11 @@ export default function TestScore({ test }: TestScoreProps) {
     } finally {
       setLoading(false);
     }
-  }, [test]);
+  }, [test, showToast, user.username]);
 
   useEffect(() => {
     fetchScore();
-  }, []);
+  }, [fetchScore]);
 
   return (
     <div className="w-full flex flex-col items-stretch font-inter p-4">

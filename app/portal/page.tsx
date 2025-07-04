@@ -22,7 +22,7 @@ export default function Portal() {
     }
 
     loadPageData();
-  }, []);
+  }, [showToast]);
 
   return (
     <>

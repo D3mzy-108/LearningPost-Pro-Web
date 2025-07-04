@@ -20,7 +20,7 @@ export default function LayoutChild({
     }
 
     autoLogout();
-  }, []);
+  }, [router]);
 
   return <>{children}</>;
 }

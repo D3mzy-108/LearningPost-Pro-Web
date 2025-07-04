@@ -101,7 +101,7 @@ export default function AnswerOptions({
         isCBTMode ? 0 : 2500
       );
     },
-    [question, triggerNextQuestion, pauseTimer, answerChecked] // Add answerChecked to dependencies
+    [question, triggerNextQuestion, pauseTimer, answerChecked, isCBTMode] // Add answerChecked to dependencies
   );
 
   useEffect(() => {

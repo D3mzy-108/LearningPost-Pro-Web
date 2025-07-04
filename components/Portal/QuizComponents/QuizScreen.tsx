@@ -70,7 +70,7 @@ export default function QuizScreen({
     } else {
       setTimeLeft(time); // Set initial time if no question or time is 0
     }
-  }, [__currentQuestionIndex, time]);
+  }, [__currentQuestionIndex, time, __currentQuestion]);
 
   const pauseTimer = useCallback(() => {
     if (timerIntervalRef.current) {
@@ -187,7 +187,7 @@ export default function QuizScreen({
         clearInterval(timerIntervalRef.current);
       }
     };
-  }, [__currentQuestionIndex, questions, startTimer, pauseTimer]);
+  }, [__currentQuestionIndex, questions, startTimer, pauseTimer, saveProgress]);
 
   // Display loading if questions are not yet loaded or currentQuestion is null initially
   if (questions.length === 0 || __currentQuestion === null) {

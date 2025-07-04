@@ -38,7 +38,7 @@ export default function PracticeQuestResults() {
     }
 
     validateScreenParams();
-  }, []);
+  }, [__passed, __testId, router, showToast]);
 
   function calculateScore() {
     try {
