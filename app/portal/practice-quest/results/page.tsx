@@ -68,7 +68,8 @@ export default function PracticeQuestResults() {
         "error"
       );
     }
-    router.push("/portal");
+    const trackCode = getStoredItem("lessonTrack");
+    router.push(`/portal/dashboard?tc=${trackCode}`);
   }
 
   if (isLoading) {
@@ -81,29 +82,51 @@ export default function PracticeQuestResults() {
 
   return (
     <>
-      <div className="w-full lg:w-4/6 h-screen overflow-auto py-6 md:py-12 px-3 md:px-8 mx-auto relative">
+      <div className="w-full h-screen overflow-auto py-6 md:py-12 px-3 md:px-8 mx-auto relative">
         <div className="w-full flex flex-col gap-4 items-center">
           <legend className="font-bold text-xl text-black/80">Results</legend>
 
           {/* SCORE SUMMARY */}
-          <div className="w-full max-w-sm flex gap-2">
+          <div className="w-full max-w-lg flex gap-2">
             {/* PASSED */}
-            <div className="w-full flex-1 text-center border-2 border-green-400 rounded-xl overflow-hidden">
-              <div className="p-2 bg-green-400 text-black text-sm">Passed</div>
-              <div className="py-3 px-2 text-green-600">{__passed || "0"}</div>
+            <div className="w-full bg-gray-100/80 flex-1 rounded-xl overflow-hidden p-2 flex items-center gap-3">
+              <div className="w-1 min-h-12 bg-green-600 text-white text-sm rounded-full"></div>
+              <div className="w-full flex-1 text-start sm:text-center">
+                <span className="text-sm text-black/50">Correct</span>
+                <div
+                  className="text-green-600 text-lg"
+                  style={{ fontWeight: 600 }}
+                >
+                  {__passed || "0"}
+                </div>
+              </div>
             </div>
 
             {/* FAILED */}
-            <div className="w-full flex-1 text-center border-2 border-red-400 rounded-xl overflow-hidden">
-              <div className="p-2 bg-red-400 text-black text-sm">Failed</div>
-              <div className="py-3 px-2 text-red-600">{corrections.length}</div>
+            <div className="w-full bg-gray-100/80 flex-1 rounded-xl overflow-hidden p-2 flex items-center gap-3">
+              <div className="w-1 min-h-12 bg-red-600 text-white text-sm rounded-full"></div>
+              <div className="w-full flex-1 text-start sm:text-center">
+                <span className="text-sm text-black/50">Wrong</span>
+                <div
+                  className="text-red-600 text-lg"
+                  style={{ fontWeight: 600 }}
+                >
+                  {corrections.length}
+                </div>
+              </div>
             </div>
 
             {/* SCORE */}
-            <div className="w-full flex-1 text-center border-2 border-yellow-400 rounded-xl overflow-hidden">
-              <div className="p-2 bg-yellow-400 text-black text-sm">Score</div>
-              <div className="py-3 px-2 text-yellow-600">
-                {calculateScore()}%
+            <div className="w-full bg-gray-100/80 flex-1 rounded-xl overflow-hidden p-2 flex items-center gap-3">
+              <div className="w-1 min-h-12 bg-yellow-600 text-white text-sm rounded-full"></div>
+              <div className="w-full flex-1 text-start sm:text-center">
+                <span className="text-sm text-black/50">Score</span>
+                <div
+                  className="text-yellow-600 text-lg"
+                  style={{ fontWeight: 600 }}
+                >
+                  {calculateScore()}%
+                </div>
               </div>
             </div>
           </div>
@@ -140,10 +163,10 @@ export default function PracticeQuestResults() {
           </ul>
 
           {/* CONTINUE BTN */}
-          <div className="w-full max-w-sm text-center px-4 mt-2">
+          <div className="w-full max-w-sm text-center px-4 mt-2 sticky -bottom-2 md:-bottom-6">
             <PrimaryBtn
               type="button"
-              btnWidth="w-full"
+              btnWidth="w-full shadow-xl"
               textContent="Continue"
               onClick={() =>
                 setTimeout(() => {

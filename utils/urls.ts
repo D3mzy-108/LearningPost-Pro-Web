@@ -1,15 +1,18 @@
 // export const DOMAIN = "http://localhost:2002";
-export const DOMAIN="https://api.learningpost.ng";
+export const DOMAIN = "https://api.learningpost.ng";
 export const LOGIN_URL = `${DOMAIN}/professional/professional-login/`;
-export const JOIN_ORGANIZATION_URL = `${DOMAIN}/professional/join-organization/`;
-export const PRO_QUESTS_URL = (username: string) => {
-  return `${DOMAIN}/professional/get-quests/${username}/`;
+export const JOIN_ORGANIZATION_URL = `${DOMAIN}/professional/add-learning-track/`;
+export const LEARNING_TRACKS = (username: string) => {
+  return `${DOMAIN}/professional/get-learning-tracks/${username}/`;
 };
-export const PRO_BOOKS_URL = (username: string) => {
-  return `${DOMAIN}/professional/get-books/${username}/`;
+export const PRO_QUESTS_URL = (username: string, trackCode: string) => {
+  return `${DOMAIN}/professional/get-quests/${username}/?code=${trackCode}`;
 };
-export const PRO_TESTS_URL = (username: string) => {
-  return `${DOMAIN}/professional/get-tests/${username}/`;
+export const PRO_BOOKS_URL = (username: string, trackCode: string) => {
+  return `${DOMAIN}/professional/get-books/${username}/?code=${trackCode}`;
+};
+export const PRO_TESTS_URL = (username: string, trackCode: string) => {
+  return `${DOMAIN}/professional/get-tests/${username}/?code=${trackCode}`;
 };
 export const BOOK_CHAPTERS_URL = (username: string, bookId: string) => {
   return `${DOMAIN}/api/${username}/book/${bookId}/chapters/`;

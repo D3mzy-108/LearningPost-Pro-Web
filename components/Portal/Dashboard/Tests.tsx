@@ -54,15 +54,7 @@ function TestCard({
       className={`${
         doNotAllowInteraction ? "opacity-50 pointer-events-none" : ""
       }
-        w-full max-w-lg bg-white/40 rounded-lg p-4 flex max-sm:flex-col items-end sm:items-center gap-2`}
-      style={{
-        border: "1px solid #eee",
-        transition: "transform 0.3s ease-in-out",
-      }}
-      onMouseOver={(e) =>
-        (e.currentTarget.style.transform = "translateY(-5px)")
-      }
-      onMouseOut={(e) => (e.currentTarget.style.transform = "translateY(0)")}
+        w-full max-w-lg bg-white/40 rounded-lg p-4 flex flex-col gap-2 border border-gray-300`}
     >
       <div className="w-full flex-1 flex items-center">
         <img
@@ -80,32 +72,54 @@ function TestCard({
           }}
         />
         <div className="w-full flex-1">
-          <h3 style={{ color: "#333" }}>{test["title"]}</h3>
+          <legend
+            className="text-[18px] text-[#333]"
+            style={{ fontWeight: 600 }}
+          >
+            {test["title"]}
+          </legend>
           <p style={{ fontSize: "16px", color: "#666", margin: "5px 0" }}>
             {test["question_count"]} Questions
-          </p>
-          <p style={{ fontSize: "14px", color: "#888", margin: 0 }}>
-            {test["status"]}
           </p>
         </div>
       </div>
       <button
-        className="px-4 py-3 rounded-lg text-md border-none"
+        className="px-4 py-3 rounded-[8px] text-md border-none mt-3"
         style={{
-          backgroundColor: "var(--primary)",
+          backgroundColor: `${
+            test["is_attempted"] ? "#ca8a04" : "var(--primary)"
+          }`,
           color: "#fff",
           cursor: "pointer",
           transition:
             "background-color 0.3s ease-in-out, transform 0.1s ease-in-out",
         }}
-        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#0056b3")}
-        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#007bff")}
+        onMouseOver={(e) =>
+          (e.currentTarget.style.backgroundColor = `${
+            test["is_attempted"] ? "#eab308 " : "#0056b3"
+          }`)
+        }
+        onMouseOut={(e) =>
+          (e.currentTarget.style.backgroundColor = `${
+            test["is_attempted"] ? "#ca8a04" : "var(--primary)"
+          }`)
+        }
         onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.98)")}
         onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
         onClick={() => startTestOrShowResults()}
       >
         {test["is_attempted"] ? "Show Results" : "Start Test"}
       </button>
+      <p
+        style={{
+          fontSize: "14px",
+          color: "#888",
+          margin: 0,
+          textAlign: "center",
+        }}
+      >
+        {test["status"]}
+      </p>
     </div>
   );
 }

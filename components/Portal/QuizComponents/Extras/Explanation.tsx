@@ -41,7 +41,7 @@ const ExplanationDisplay: React.FC<ExplanationDisplayProps> = ({
       id="explanation-wrapper"
       className={`w-screen h-screen fixed top-0 left-0 z-[1000] bg-black/30 slide-up grid place-items-end`}
     >
-      <div className="w-full max-w-md h-fit overflow-auto bg-[#DAE5FB] p-6 mx-auto target rounded-t-3xl flex flex-col gap-4">
+      <div className="w-full max-w-md h-fit overflow-auto bg-[#fafbff] p-6 mx-auto target rounded-t-3xl flex flex-col gap-4">
         <legend className="text-xl font-bold text-red-800">
           Close, but not quite!
         </legend>

@@ -39,7 +39,12 @@ export default function AnswerOptions({
       question.optionC,
       question.optionD,
     ];
-    const loadedOptions: AnswerOption[] = options.map((option, index) => {
+    function shuffleArraySort(array: string[]) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    const shuffledArray = shuffleArraySort(options);
+    const loadedOptions: AnswerOption[] = shuffledArray.map((option, index) => {
       // Find and set correct answer ID during mapping
       if (option.trim() === question.answer.trim()) {
         setCorrectAnswerId(index);
