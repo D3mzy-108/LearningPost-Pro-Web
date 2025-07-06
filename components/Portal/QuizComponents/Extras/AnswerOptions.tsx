@@ -190,6 +190,7 @@ export default function AnswerOptions({
 
       {/* EXPLANATION COMPONENT */}
       <ExplanationDisplay
+        question={question.question}
         correctAnswer={question.answer}
         explanationText={question.explanation}
         isVisible={showExplanation}

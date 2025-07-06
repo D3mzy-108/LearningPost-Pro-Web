@@ -40,3 +40,6 @@ export const SAVE_TEST_SCORE = (testId: string, username: string) => {
 export const GET_TEST_SCORE = (testId: string, username: string) => {
   return `${DOMAIN}/professional/get-score/${username}/${testId}/`;
 };
+export const REQUEST_SMARTLINK_URL = (username: string) => {
+  return `${DOMAIN}/akada/smartlink/${username}/`;
+};

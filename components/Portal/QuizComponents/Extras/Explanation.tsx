@@ -1,9 +1,10 @@
 "use client";
 import React from "react";
 import "@/assets/css/animation.css";
-import { SelectableText } from "./SmartLinks";
+import SelectableText from "./SmartLinks";
 
 interface ExplanationDisplayProps {
+  question: string;
   explanationText: string;
   correctAnswer: string;
   isVisible: boolean;
@@ -18,6 +19,7 @@ interface ExplanationDisplayProps {
  * @returns {JSX.Element | null} The rendered explanation display or null if not visible.
  */
 const ExplanationDisplay: React.FC<ExplanationDisplayProps> = ({
+  question,
   explanationText,
   correctAnswer,
   isVisible,
@@ -54,6 +56,7 @@ const ExplanationDisplay: React.FC<ExplanationDisplayProps> = ({
                 <div className="selectable">{explanationText}</div>
               </>
             }
+            textContent={`Question: ${question}\n\nAnswer: ${correctAnswer}\n\nExplanation: ${explanationText}`}
             textStyleClasses="text-black/80"
           />
         </div>
