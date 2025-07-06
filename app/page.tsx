@@ -109,12 +109,12 @@ export default function Home() {
             >
               {showSignUpForm ? (
                 <>
-                  <span>Already have an account? </span>
+                  <span>{"Already have an account? "}</span>
                   <span className="text-blue-600">Login</span>
                 </>
               ) : (
                 <>
-                  <span>Don't yet have an account? </span>
+                  <span>{"Don't yet have an account? "}</span>
                   <span className="text-blue-600">Create Account</span>
                 </>
               )}
