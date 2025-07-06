@@ -11,6 +11,11 @@
   user-select: none;
 }
 
+.min-height-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
 .selectable {
   user-select: text;
 }
