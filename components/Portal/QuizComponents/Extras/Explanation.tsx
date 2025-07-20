@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "@/assets/css/animation.css";
 import SelectableText from "./SmartLinks";
 
@@ -25,14 +25,28 @@ const ExplanationDisplay: React.FC<ExplanationDisplayProps> = ({
   isVisible,
   onDismiss,
 }) => {
+  const [displayButton, setDisplayButton] = useState(false);
   function hideExplanation() {
     const drawer = document.getElementById("explanation-wrapper");
     drawer?.classList.remove("slide-up");
     drawer?.classList.add("slide-down");
+    setDisplayButton(false);
     setTimeout(() => {
       onDismiss();
     }, 300);
   }
+
+  useEffect(() => {
+    function showBtn() {
+      setTimeout(() => {
+        setDisplayButton(true);
+      }, 3000);
+    }
+
+    if (isVisible) {
+      showBtn();
+    }
+  }, [isVisible]);
 
   if (!isVisible || !explanationText || explanationText.trim().length === 0) {
     return null;
@@ -62,8 +76,12 @@ const ExplanationDisplay: React.FC<ExplanationDisplayProps> = ({
         </div>
         <div className="w-full text-start mt-2">
           <button
-            onClick={hideExplanation}
-            className="px-6 py-4 w-full rounded-full border-none bg-black/20 text-black"
+            onClick={() => {
+              if (displayButton) hideExplanation();
+            }}
+            className={`px-6 py-4 w-full rounded-full border-none bg-black/20 text-black duration-500 ${
+              displayButton ? "opacity-100" : "opacity-0"
+            }`}
             style={{
               fontWeight: 600,
             }}
