@@ -55,9 +55,9 @@ const ExplanationDisplay: React.FC<ExplanationDisplayProps> = ({
   return (
     <div
       id="explanation-wrapper"
-      className={`w-screen h-screen fixed top-0 left-0 z-[1000] bg-black/30 slide-up grid place-items-end`}
+      className={`w-screen h-screen fixed top-0 left-0 z-[1000] bg-black/40 slide-up grid place-items-end`}
     >
-      <div className="w-full max-w-md h-fit overflow-auto bg-[#fafbff] p-6 mx-auto target rounded-t-3xl flex flex-col gap-4">
+      <div className="w-full max-w-lg h-fit overflow-auto bg-[#fafbff] p-6 mx-auto target rounded-t-3xl md:rounded-b-3xl md:mb-6 flex flex-col gap-4">
         <legend className="text-xl font-bold text-red-800">
           Close, but not quite!
         </legend>
