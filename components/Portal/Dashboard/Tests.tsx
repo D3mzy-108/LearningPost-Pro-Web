@@ -17,7 +17,9 @@ export default function Tests({
   const searchParams = useSearchParams();
   return (
     <section className="w-full py-4 md:px-2 lg:px-4 backdrop-blur-sm">
-      <h3 className="text-black text-xl font-bold w-full">Upcoming Tests</h3>
+      <h3 className="text-black text-xl font-bold w-full">
+        Certification Tests
+      </h3>
       <div className="text-red-600 my-5 text-sm italic rounded-xl">
         <p>
           {`This section contains the certification tests required to clear you for active duty with ${searchParams.get(
