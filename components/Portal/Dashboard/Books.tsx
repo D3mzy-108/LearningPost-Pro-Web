@@ -1,5 +1,6 @@
 import { DOMAIN } from "@/utils/urls";
 import BookDetails from "../Books/BookDetails";
+import Image from "next/image";
 
 export default function Books({
   books,
@@ -9,8 +10,8 @@ export default function Books({
   showDetailsComponent: (child: React.ReactElement) => void;
 }) {
   return (
-    <section className="w-full py-4 px-4 bg-transparent rounded-xl backdrop-blur-sm">
-      <h3 className="text-black/70 text-xl font-bold w-full">
+    <section className="w-full py-4 md:px-2 lg:px-4 bg-transparent rounded-xl backdrop-blur-sm">
+      <h3 className="text-black text-xl font-bold w-full">
         Learning Resources
       </h3>
 
@@ -41,14 +42,16 @@ function BookCover({ book }: { book: any }) {
     <div className="bg-white/30 w-full p-4 rounded-xl border border-gray-300">
       <div className="w-full flex items-center gap-4">
         {/* BOOK COVER */}
-        <img
+        <Image
           src={`${DOMAIN}${book["cover"]}`}
           alt={book["title"]}
           onError={(e) => {
             (e.target as HTMLImageElement).src =
               "https://placehold.co/50x50/EEE/333333?text=";
           }}
-          className="w-[80px] aspect-[4/6] rounded-[8px]"
+          width={80}
+          height={0}
+          className="aspect-[4/6] rounded-[8px]"
         />
 
         {/* BOOK DETAILS */}

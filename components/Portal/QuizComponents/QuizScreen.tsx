@@ -67,7 +67,9 @@ export default function QuizScreen({
 
     // Only start timer if a positive time is provided
     if (time > 0) {
-      setTimeLeft(time); // Reset time for the new question
+      if (!isCBTMode) {
+        setTimeLeft(time); // Reset time for the new question
+      }
 
       // Set up a new interval to decrement time every second
       timerIntervalRef.current = setInterval(() => {
@@ -86,7 +88,7 @@ export default function QuizScreen({
       // If time is 0 or less, set timeLeft to 0 immediately
       setTimeLeft(0);
     }
-  }, [time]); // Dependency: `time` prop. Re-create if time per question changes.
+  }, [isCBTMode, time]); // Dependency: `time` prop. Re-create if time per question changes.
 
   /**
    * Pauses the current timer by clearing the interval.
@@ -215,6 +217,18 @@ export default function QuizScreen({
     [currentQuestionIndex, questions] // Dependencies for handleNextQuestion
   );
 
+  const handleFinishQuiz = useCallback(() => {
+    console.log(
+      "QuizScreen: Quiz finished. Triggering save progress and navigation."
+    );
+    setCurrentQuestion(null); // Signal end of quiz
+    pauseTimer(); // Stop the timer
+    // Give a small delay before saving progress, useful for UI transitions
+    setTimeout(() => {
+      saveProgress();
+    }, 2000);
+  }, [pauseTimer, saveProgress]);
+
   /**
    * Main effect hook to manage quiz progression and timer lifecycle.
    * Runs when `currentQuestionIndex`, `questions`, `time`, `startTimer`, `pauseTimer`, or `saveProgress` changes.
@@ -222,22 +236,14 @@ export default function QuizScreen({
   useEffect(() => {
     // Check if there are questions to display
     if (questions.length > 0) {
-      // If there are more questions, set the current question and start the timer
+      // If there are more questions, set the current question and start the timer)
       if (currentQuestionIndex < questions.length) {
         const newQuestion = questions[currentQuestionIndex];
         setCurrentQuestion(newQuestion);
         startTimer(); // Start timer for the new question
       } else {
         // All questions answered: Quiz finished
-        console.log(
-          "QuizScreen: Quiz finished. Triggering save progress and navigation."
-        );
-        setCurrentQuestion(null); // Signal end of quiz
-        pauseTimer(); // Stop the timer
-        // Give a small delay before saving progress, useful for UI transitions
-        setTimeout(() => {
-          saveProgress();
-        }, 2000);
+        handleFinishQuiz();
       }
     }
 
@@ -255,7 +261,18 @@ export default function QuizScreen({
     startTimer,
     pauseTimer,
     saveProgress,
+    handleFinishQuiz,
+    isCBTMode,
   ]); // Dependencies
+
+  useEffect(() => {
+    // WATCHING FOR CHANGES IN TIME LEFT
+    if (isCBTMode) {
+      if (timeLeft <= 0) {
+        handleFinishQuiz();
+      }
+    }
+  }, [handleFinishQuiz, isCBTMode, timeLeft]);
 
   // Display a loading screen if questions are not yet loaded or currentQuestion is null initially
   if (questions.length === 0 || currentQuestion === null) {

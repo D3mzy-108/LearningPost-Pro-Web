@@ -1,19 +1,37 @@
+"use client";
 import { DOMAIN } from "@/utils/urls";
 import ConfirmStartTest from "../Test/ConfirmStartTest";
 import TestScore from "../Test/TestResults";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 export default function Tests({
   tests,
   showDetailsComponent,
+  isLocked,
 }: {
   tests: [];
   showDetailsComponent: (child: React.ReactElement) => void;
+  isLocked: boolean;
 }) {
+  const searchParams = useSearchParams();
   return (
-    <section className="w-full py-4 px-6 bg-transparent rounded-xl backdrop-blur-sm">
-      <h3 className="text-black/70 text-md font-bold w-full">Upcoming Tests</h3>
+    <section className="w-full py-4 md:px-2 lg:px-4 backdrop-blur-sm">
+      <h3 className="text-black text-xl font-bold w-full">Upcoming Tests</h3>
+      <div className="text-red-600 my-5 text-sm italic rounded-xl">
+        <p>
+          {`This section contains the certification tests required to clear you for active duty with ${searchParams.get(
+            "tc"
+          )}.
+          `}
+        </p>
+        <p>
+          {`
+         Access to these tests will be granted upon the successful completion of all prerequisite courses.`}
+        </p>
+      </div>
 
-      <div className="w-full mt-4">
+      <div className={`w-full ${isLocked && "opacity-50"}`}>
         <div className="w-full flex flex-col gap-4">
           {tests.map((test) => {
             return (
@@ -57,16 +75,16 @@ function TestCard({
         w-full max-w-lg bg-white/40 rounded-lg p-4 flex flex-col gap-2 border border-gray-300`}
     >
       <div className="w-full flex-1 flex items-center">
-        <img
+        <Image
           src={`${DOMAIN}${test["cover"]}`}
           alt={`${test["title"]}`}
           onError={(e) => {
             (e.target as HTMLImageElement).src =
               "https://placehold.co/60x60/cccccc/333333?text=";
           }} // Fallback image
+          width={60}
+          height={60}
           style={{
-            width: "60px",
-            height: "60px",
             marginRight: "20px",
             borderRadius: "10px",
           }}

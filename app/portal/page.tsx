@@ -26,7 +26,7 @@ export default function Portal() {
 
   return (
     <>
-      <div className="w-full max-w-lg mx-auto p-6">
+      <div className="w-full max-w-xl mx-auto p-6">
         <LearningTracks learningTracks={learningTracks} />
       </div>
     </>

@@ -5,6 +5,7 @@ import http from "@/utils/http";
 import { getStoredItem, storeItem } from "@/utils/local_storage_utils";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/context/ToastContext";
+import Image from "next/image";
 
 export default function LearningTracks({
   learningTracks,
@@ -36,43 +37,41 @@ export default function LearningTracks({
 
   return (
     <>
-      <section className="w-full py-4 px-4 bg-transparent rounded-3xl backdrop-blur-sm shadow-lg">
-        <h3 className="text-black/70 text-md font-bold w-full">
+      <section className="w-full">
+        <h3 className="text-black/70 text-xl font-bold w-full py-3">
           Learning Tracks
         </h3>
 
-        <div className="w-full mt-4 px-2">
-          <div className="w-full flex flex-col gap-3">
+        <div className="w-full mt-1 px-2">
+          <div className="w-full flex flex-col divide-y-2">
             {/* ADD ORGANIZATION BTN */}
             <button
               onClick={() => {
                 setShowAddGroup(!showAddGroup);
               }}
-              className="w-full flex items-center gap-6"
+              className="w-full flex items-center gap-6 py-3"
               style={{
                 flexShrink: 0, // Prevent items from shrinking
                 textAlign: "center",
                 cursor: "pointer",
-                transition: "transform 0.3s ease-in-out",
-                padding: "5px",
-                alignSelf: "flex-start",
+                transition: "transform 0.15s ease-in-out",
               }}
-              onMouseOver={(e) =>
-                (e.currentTarget.style.transform = "scale(0.98)")
+              onMouseDown={(e) =>
+                (e.currentTarget.style.transform = "scale(0.99)")
               }
-              onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
+              onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
             >
-              <img
-                src={`https://placehold.co/60x60/DDD/777777?text=- Add -`}
-                alt={"+"}
+              <Image
+                src={`https://placehold.co/60x60/EEE/777777?text='Add'`}
+                alt={""}
+                width={57.5}
+                height={57.5}
+                className="p-1"
                 style={{
-                  width: "57.5px",
-                  height: "57.5px",
-                  borderRadius: "15px", // Slightly rounded corners for logos
+                  borderRadius: "12px", // Slightly rounded corners for logos
                   objectFit: "cover",
                   border: "1px solid #ddd",
                   background: "#EEE",
-                  boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
                 }}
               />
               <p
@@ -93,38 +92,34 @@ export default function LearningTracks({
             </button>
 
             {/* ADD GROUP FORM */}
-            {showAddGroup ? (
-              <div className="w-full px-2">
-                <form
-                  onSubmit={(e: FormEvent) => {
-                    joinGroup(e);
-                  }}
-                  method="post"
-                  className="w-full flex flex-col"
-                >
-                  <div className="w-full flex gap-6">
-                    <div className="w-full flex-1">
-                      <input
-                        type="text"
-                        name="cc"
-                        id="cc"
-                        className="bg-transparent border-b border-b-black/80 placeholder:text-black/60 w-full p-3"
-                        placeholder="Enter track code..."
-                        required
-                      />
-                    </div>
-                    <PrimaryBtn
-                      btnWidth="w-fit"
-                      onClick={() => {}}
-                      type="submit"
-                      textContent="Track"
+            <div className={`w-full px-2 ${!showAddGroup && "hidden"}`}>
+              <form
+                onSubmit={(e: FormEvent) => {
+                  joinGroup(e);
+                }}
+                method="post"
+                className="w-full flex flex-col"
+              >
+                <div className="w-full flex gap-6">
+                  <div className="w-full flex-1">
+                    <input
+                      type="text"
+                      name="cc"
+                      id="cc"
+                      className="bg-transparent border-b border-b-black/80 placeholder:text-black/60 w-full p-3"
+                      placeholder="Enter track code..."
+                      required
                     />
                   </div>
-                </form>
-              </div>
-            ) : (
-              <></>
-            )}
+                  <PrimaryBtn
+                    btnWidth="w-fit"
+                    onClick={() => {}}
+                    type="submit"
+                    textContent="Track"
+                  />
+                </div>
+              </form>
+            </div>
 
             {learningTracks.map((track) => {
               return (
@@ -151,46 +146,44 @@ function OrganizationContainer({
 }) {
   return (
     <button
-      className="w-full flex items-center gap-6"
+      className="w-full flex items-center gap-6 py-3"
       style={{
         flexShrink: 0, // Prevent items from shrinking
         textAlign: "center",
         cursor: "pointer",
-        transition: "transform 0.3s ease-in-out",
-        padding: "5px",
+        transition: "transform 0.15s ease-in-out",
       }}
-      onMouseOver={(e) => (e.currentTarget.style.transform = "scale(0.98)")}
-      onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
+      onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.99)")}
+      onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
       onClick={() => openDashboard(`${org["code"]}`)}
     >
-      <img
+      <Image
         src={`${DOMAIN}${org["logo"]}`}
         alt={org["name"] ?? ""}
         onError={(e) => {
           (e.target as HTMLImageElement).src =
             "https://placehold.co/60x60/EEE/333333?text=";
         }} // Fallback image
+        width={57.5}
+        height={57.5}
+        className="p-1"
         style={{
-          width: "57.5px",
-          height: "57.5px",
-          borderRadius: "15px", // Slightly rounded corners for logos
+          borderRadius: "12px",
           objectFit: "cover",
           border: "1px solid #ddd",
           background: "#EEE",
-          boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
         }}
       />
       <p
         className="truncate"
         style={{
-          marginTop: "8px",
           fontSize: "17px",
           color: "#222",
           fontWeight: "500",
-          whiteSpace: "nowrap", // Prevent text wrapping
+          whiteSpace: "nowrap",
           overflow: "hidden",
           textOverflow: "ellipsis",
-          maxWidth: "100%", // Limit text width
+          maxWidth: "100%",
         }}
       >
         {org["name"]}

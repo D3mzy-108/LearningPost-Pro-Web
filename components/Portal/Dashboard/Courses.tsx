@@ -2,6 +2,7 @@ import { DOMAIN } from "@/utils/urls";
 import React from "react";
 import QuestDetails from "../Quest/QuestDetails";
 import PrimaryBtn from "@/components/Buttons/PrimaryBtn";
+import Image from "next/image";
 
 export default function Courses({
   quests,
@@ -11,8 +12,8 @@ export default function Courses({
   showDetailsComponent: (child: React.ReactElement) => void;
 }) {
   return (
-    <section className="w-full py-4 px-4 bg-transparent rounded-xl backdrop-blur-sm">
-      <h3 className="text-black/70 text-xl font-bold w-full">Modules</h3>
+    <section className="w-full py-4 md:px-2 lg:px-4 bg-transparent rounded-xl backdrop-blur-sm">
+      <h3 className="text-black text-xl font-bold w-full">Modules</h3>
 
       <div className="w-full mt-4 px-2">
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -57,16 +58,16 @@ function CourseCard({
   return (
     <div className="bg-white/30 w-full p-4 rounded-xl border border-gray-300">
       <div style={{ display: "flex", alignItems: "start" }}>
-        <img
+        <Image
           src={`${DOMAIN}${quest["cover"]}`}
           alt="Course Logo"
           onError={(e) => {
             (e.target as HTMLImageElement).src =
               "https://placehold.co/50x50/EEE/333333?text=";
           }} // Fallback image
+          width={50}
+          height={50}
           style={{
-            width: "50px",
-            height: "50px",
             marginRight: "15px",
             borderRadius: "8px",
           }}
