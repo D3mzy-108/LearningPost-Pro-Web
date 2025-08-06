@@ -169,7 +169,15 @@ export default function QuizScreen({
       // Navigate to portal after CBT submission
       router.push(`/portal`);
     }
-  }, [isCBTMode, questionsPassed, questionsFailed, testId, router, showToast]); // Dependencies for saveProgress
+  }, [
+    isCBTMode,
+    showToast,
+    questionsPassed,
+    questionsFailed,
+    router,
+    testId,
+    questions.length,
+  ]); // Dependencies for saveProgress
 
   /**
    * Handles moving to the next question after an answer is submitted or time runs out.
