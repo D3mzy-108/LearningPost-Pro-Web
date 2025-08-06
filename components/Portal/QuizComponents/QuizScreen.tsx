@@ -141,7 +141,8 @@ export default function QuizScreen({
     } else {
       // CBT mode: Save test score
       console.log("Saving CBT test score...");
-      const totalQuestions = questionsPassed.length + questionsFailed.length;
+      // const totalQuestions = questionsPassed.length + questionsFailed.length;
+      const totalQuestions = questions.length;
       const score =
         totalQuestions > 0
           ? Math.floor((questionsPassed.length / totalQuestions) * 100)
