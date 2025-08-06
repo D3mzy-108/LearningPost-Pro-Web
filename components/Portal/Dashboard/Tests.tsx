@@ -31,7 +31,7 @@ export default function Tests({
         </p>
       </div>
 
-      <div className={`w-full ${isLocked && "opacity-50"}`}>
+      <div className={`w-full ${isLocked && "opacity-50 pointer-events-none"}`}>
         <div className="w-full flex flex-col gap-4">
           {tests.map((test) => {
             return (
