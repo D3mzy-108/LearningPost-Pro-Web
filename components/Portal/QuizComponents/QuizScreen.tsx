@@ -67,9 +67,7 @@ export default function QuizScreen({
 
     // Only start timer if a positive time is provided
     if (time > 0) {
-      if (!isCBTMode) {
-        setTimeLeft(time); // Reset time for the new question
-      }
+      setTimeLeft(time);
 
       // Set up a new interval to decrement time every second
       timerIntervalRef.current = setInterval(() => {
@@ -88,7 +86,7 @@ export default function QuizScreen({
       // If time is 0 or less, set timeLeft to 0 immediately
       setTimeLeft(0);
     }
-  }, [isCBTMode, time]); // Dependency: `time` prop. Re-create if time per question changes.
+  }, [time]); // Dependency: `time` prop. Re-create if time per question changes.
 
   /**
    * Pauses the current timer by clearing the interval.
@@ -273,15 +271,6 @@ export default function QuizScreen({
     handleFinishQuiz,
     isCBTMode,
   ]); // Dependencies
-
-  useEffect(() => {
-    // WATCHING FOR CHANGES IN TIME LEFT
-    if (isCBTMode) {
-      if (timeLeft <= 0) {
-        handleFinishQuiz();
-      }
-    }
-  }, [handleFinishQuiz, isCBTMode, timeLeft]);
 
   // Display a loading screen if questions are not yet loaded or currentQuestion is null initially
   if (questions.length === 0 || currentQuestion === null) {

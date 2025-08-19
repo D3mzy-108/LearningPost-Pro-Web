@@ -34,7 +34,7 @@ export default function Tests({
       </div>
 
       <div className={`w-full ${isLocked && "opacity-50 pointer-events-none"}`}>
-        <div className="w-full flex flex-col gap-4">
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {tests.map((test) => {
             return (
               <TestCard

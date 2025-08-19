@@ -1,7 +1,6 @@
 "use client";
 import Books from "@/components/Portal/Dashboard/Books";
 import Courses from "@/components/Portal/Dashboard/Courses";
-import Header from "@/components/Portal/Dashboard/Header";
 import Tests from "@/components/Portal/Dashboard/Tests";
 import Drawer from "@/components/PopUps/Drawer";
 import loadingImg from "@/assets/images/loading.png";
@@ -86,8 +85,7 @@ export default function Dashboard() {
 
   return (
     <div className="relative">
-      <div className="w-full h-screen overflow-auto">
-        <Header />
+      <div className="w-full">
         {quests.length === 0 && books.length === 0 && tests.length === 0 ? (
           <>
             <div className="w-full h-screen grid place-items-center">

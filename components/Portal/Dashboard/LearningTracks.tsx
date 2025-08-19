@@ -30,8 +30,9 @@ export default function LearningTracks({
     showToast(data.message, data.success ? "success" : "error");
   }
 
-  function openDashboard(trackCode: string) {
+  function openDashboard(trackCode: string, track: any) {
     storeItem("lessonTrack", trackCode);
+    storeItem("lessonTrackObj", track);
     router.push(`/portal/dashboard?tc=${trackCode}`);
   }
 
@@ -142,7 +143,7 @@ function OrganizationContainer({
   openDashboard,
 }: {
   org: any;
-  openDashboard: (trackCode: string) => void;
+  openDashboard: (trackCode: string, track: any) => void;
 }) {
   return (
     <button
@@ -155,7 +156,7 @@ function OrganizationContainer({
       }}
       onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.99)")}
       onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
-      onClick={() => openDashboard(`${org["code"]}`)}
+      onClick={() => openDashboard(`${org["code"]}`, org)}
     >
       <Image
         src={`${DOMAIN}${org["logo"]}`}
