@@ -4,6 +4,7 @@ import ConfirmStartTest from "../Test/ConfirmStartTest";
 import TestScore from "../Test/TestResults";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import { useToast } from "@/context/ToastContext";
 
 export default function Tests({
   tests,
@@ -15,12 +16,14 @@ export default function Tests({
   isLocked: boolean;
 }) {
   const searchParams = useSearchParams();
+  const { showToast } = useToast();
+
   return (
     <section className="w-full py-4 md:px-2 lg:px-4 backdrop-blur-sm">
       <h3 className="text-black text-xl font-bold w-full">
         Certification Tests
       </h3>
-      <div className="text-red-600 my-5 text-sm italic rounded-xl">
+      <div className="text-black/60 my-5 text-sm italic rounded-xl">
         <p>
           {`This section contains the certification tests required to clear you for active duty with ${searchParams.get(
             "tc"
@@ -33,13 +36,23 @@ export default function Tests({
         </p>
       </div>
 
-      <div className={`w-full ${isLocked && "opacity-50 pointer-events-none"}`}>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className={`w-full mt-3`}>
+        <div className="w-full flex flex-col gap-4">
           {tests.map((test) => {
             return (
               <TestCard
                 test={test}
-                showDetailsComponent={showDetailsComponent}
+                showDetailsComponent={
+                  isLocked
+                    ? () => {
+                        showToast("Access denied!", "error");
+                        showToast(
+                          "You have not completed all your modules!",
+                          "info"
+                        );
+                      }
+                    : showDetailsComponent
+                }
                 key={test["testid"]}
               />
             );
@@ -74,9 +87,9 @@ function TestCard({
       className={`${
         doNotAllowInteraction ? "opacity-50 pointer-events-none" : ""
       }
-        w-full max-w-lg bg-white/40 rounded-lg p-4 flex flex-col gap-2 border border-gray-300`}
+        w-full max-w-xl bg-white/40 rounded-lg p-4 flex flex-col gap-2 border border-gray-300`}
     >
-      <div className="w-full flex-1 flex items-center">
+      <div className="w-full flex-1 flex flex-wrap items-center">
         <Image
           src={`${DOMAIN}${test["cover"]}`}
           alt={`${test["title"]}`}
@@ -102,44 +115,48 @@ function TestCard({
             {test["question_count"]} Questions
           </p>
         </div>
+        <div className="w-fit flex flex-col gap-2">
+          <button
+            className="px-4 py-3 rounded-[8px] text-md border-none mt-3"
+            style={{
+              backgroundColor: `${
+                test["is_attempted"] ? "#ca8a04" : "var(--primary)"
+              }`,
+              color: "#fff",
+              cursor: "pointer",
+              transition:
+                "background-color 0.3s ease-in-out, transform 0.1s ease-in-out",
+            }}
+            onMouseOver={(e) =>
+              (e.currentTarget.style.backgroundColor = `${
+                test["is_attempted"] ? "#eab308 " : "#0056b3"
+              }`)
+            }
+            onMouseOut={(e) =>
+              (e.currentTarget.style.backgroundColor = `${
+                test["is_attempted"] ? "#ca8a04" : "var(--primary)"
+              }`)
+            }
+            onMouseDown={(e) =>
+              (e.currentTarget.style.transform = "scale(0.98)")
+            }
+            onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+            onClick={() => startTestOrShowResults()}
+          >
+            {test["is_attempted"] ? "Show Results" : "Start Test"}
+          </button>
+          <p
+            style={{
+              fontSize: "14px",
+              color: "#888",
+              margin: 0,
+              textAlign: "center",
+            }}
+          >
+            {test["status"]}
+          </p>
+        </div>
       </div>
-      <button
-        className="px-4 py-3 rounded-[8px] text-md border-none mt-3"
-        style={{
-          backgroundColor: `${
-            test["is_attempted"] ? "#ca8a04" : "var(--primary)"
-          }`,
-          color: "#fff",
-          cursor: "pointer",
-          transition:
-            "background-color 0.3s ease-in-out, transform 0.1s ease-in-out",
-        }}
-        onMouseOver={(e) =>
-          (e.currentTarget.style.backgroundColor = `${
-            test["is_attempted"] ? "#eab308 " : "#0056b3"
-          }`)
-        }
-        onMouseOut={(e) =>
-          (e.currentTarget.style.backgroundColor = `${
-            test["is_attempted"] ? "#ca8a04" : "var(--primary)"
-          }`)
-        }
-        onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.98)")}
-        onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
-        onClick={() => startTestOrShowResults()}
-      >
-        {test["is_attempted"] ? "Show Results" : "Start Test"}
-      </button>
-      <p
-        style={{
-          fontSize: "14px",
-          color: "#888",
-          margin: 0,
-          textAlign: "center",
-        }}
-      >
-        {test["status"]}
-      </p>
     </div>
   );
 }

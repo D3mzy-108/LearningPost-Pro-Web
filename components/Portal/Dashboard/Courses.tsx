@@ -1,5 +1,5 @@
 import { DOMAIN } from "@/utils/urls";
-import React from "react";
+import React, { ReactElement } from "react";
 import QuestDetails from "../Quest/QuestDetails";
 import PrimaryBtn from "@/components/Buttons/PrimaryBtn";
 import Image from "next/image";
@@ -55,39 +55,8 @@ function CourseCard({
   }
   const progress = calculateProgress();
 
-  return (
-    <div className="bg-white/30 w-full p-4 rounded-xl border border-gray-300">
-      <div style={{ display: "flex", alignItems: "start" }}>
-        <Image
-          src={`${DOMAIN}${quest["cover"]}`}
-          alt="Course Logo"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src =
-              "https://placehold.co/50x50/EEE/333333?text=";
-          }} // Fallback image
-          width={50}
-          height={50}
-          style={{
-            marginRight: "15px",
-            borderRadius: "8px",
-          }}
-        />
-        {/* TITLE */}
-        <div className="w-full flex-1 flex flex-col gap-1">
-          <legend
-            className="text-[18px] text-[#333]"
-            style={{ fontWeight: 600 }}
-          >
-            {quest["title"]}
-          </legend>
-
-          <p style={{ fontSize: "15px", color: "#666", marginBottom: "10px" }}>
-            {questions} Questions
-          </p>
-        </div>
-      </div>
-
-      {/* OTHER DATA */}
+  const otherCardData = (): ReactElement => {
+    return (
       <div className="w-full flex flex-col gap-2 mt-2">
         <div className="w-full">
           <div
@@ -118,9 +87,9 @@ function CourseCard({
           {progress}% Completed
         </span>
 
-        <div className="w-full mt-2">
+        <div className="w-full mt-2 px-2">
           <button
-            className="px-4 py-3 rounded-[8px] text-md border-none w-full"
+            className="px-6 py-3 rounded-[8px] text-sm border-none w-full md:w-fit"
             style={{
               backgroundColor: "var(--primary)",
               color: "#fff",
@@ -146,6 +115,42 @@ function CourseCard({
           </button>
         </div>
       </div>
+    );
+  };
+
+  return (
+    <div className="bg-white/30 w-full p-4 rounded-xl border border-gray-300">
+      <div style={{ display: "flex", alignItems: "start" }}>
+        <Image
+          src={`${DOMAIN}${quest["cover"]}`}
+          alt="Course Logo"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src =
+              "https://placehold.co/50x50/F3EFE3/333333?text=";
+          }} // Fallback image
+          width={70}
+          height={70}
+          style={{
+            marginRight: "15px",
+            borderRadius: "8px",
+            background: "#F3EFE3",
+          }}
+        />
+        {/* TITLE */}
+        <div className="w-full flex-1 flex flex-col gap-1">
+          <legend
+            className="text-[18px] text-[#333]"
+            style={{ fontWeight: 600 }}
+          >
+            {quest["title"]}
+          </legend>
+          <p style={{ fontSize: "15px", color: "#666", marginBottom: "10px" }}>
+            {questions} Questions
+          </p>
+          <div className="max-md:hidden">{otherCardData()}</div>
+        </div>
+      </div>
+      <div className="md:hidden">{otherCardData()}</div>
     </div>
   );
 }
