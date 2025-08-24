@@ -107,9 +107,10 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({
       {children}
       {/* Container for all toast messages, positioned fixed on the screen */}
       {messages.length > 0 && (
-        <ul className="w-full grid grid-cols-1 gap-2 fixed top-0 right-0 p-4 pointer-events-none">
-          {/* Messages are prepended, so a normal map will display the newest at the top of the flex column. */}
-          <div className="w-full max-w-sm ml-auto">
+        <div className="w-full fixed top-0 right-0 p-4 pointer-events-none">
+          <ul className="w-full max-w-sm ml-auto grid grid-cols-1 gap-0 rounded-xl overflow-hidden">
+            {/* Messages are prepended, so a normal map will display the newest at the top of the flex column. */}
+
             {messages.map((message) => (
               <ToastMessage
                 key={message.id}
@@ -117,8 +118,8 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({
                 onClose={() => hideToast(message.id)}
               />
             ))}
-          </div>
-        </ul>
+          </ul>
+        </div>
       )}
     </ToastContext.Provider>
   );

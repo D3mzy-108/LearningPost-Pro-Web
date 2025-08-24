@@ -89,26 +89,32 @@ const ToastMessage: React.FC<ToastMessageProps> = ({
     // Add pointer-events-auto here to allow click on this specific toast.
     // The container (ul) in ToastContext has pointer-events-none, so this is crucial.
     <li
-      className={`${colors} w-full rounded-xl py-4 px-6 flex items-center gap-3 backdrop-blur-md ${transitionClasses} ${visibilityClasses} pointer-events-auto`}
+      className={`w-full bg-white ${transitionClasses} ${visibilityClasses} pointer-events-auto`}
     >
-      <div className="flex-1">
-        <span className="text-md">{message.messageTxt}</span>
-      </div>
-      <div className="w-fit">
-        {/* Close button - user can manually dismiss messages */}
-        <button
-          onClick={() => {
-            console.log(`[ToastMessage - ${message.id}] Manual close clicked.`);
-            setIsVisible(false); // Instantly trigger fade-out/slide-out
-            const unmountTimer = setTimeout(() => {
-              onClose(); // Remove from global state after animation
-            }, 300); // Match this delay to your transition duration
-            return () => clearTimeout(unmountTimer);
-          }}
-          className="w-fit border-none bg-gray-100 px-2 py-0 aspect-square text-lg grid place-items-center rounded-full text-gray-600 hover:bg-gray-200"
-        >
-          &times;
-        </button>
+      <div
+        className={`${colors} w-full py-4 px-6 flex items-center gap-3 backdrop-blur-md`}
+      >
+        <div className="flex-1">
+          <span className="text-md">{message.messageTxt}</span>
+        </div>
+        <div className="w-fit">
+          {/* Close button - user can manually dismiss messages */}
+          <button
+            onClick={() => {
+              console.log(
+                `[ToastMessage - ${message.id}] Manual close clicked.`
+              );
+              setIsVisible(false); // Instantly trigger fade-out/slide-out
+              const unmountTimer = setTimeout(() => {
+                onClose(); // Remove from global state after animation
+              }, 300); // Match this delay to your transition duration
+              return () => clearTimeout(unmountTimer);
+            }}
+            className="w-fit border-none bg-gray-100 px-2 py-0 aspect-square text-lg grid place-items-center rounded-full text-gray-600 hover:bg-gray-200"
+          >
+            &times;
+          </button>
+        </div>
       </div>
     </li>
   );
