@@ -5,16 +5,24 @@ import TestScore from "../Test/TestResults";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useToast } from "@/context/ToastContext";
+import PrimaryBtn from "@/components/Buttons/PrimaryBtn";
 
-export default function Tests({
-  tests,
-  showDetailsComponent,
-  isLocked,
-}: {
-  tests: [];
-  showDetailsComponent: (child: React.ReactElement) => void;
-  isLocked: boolean;
-}) {
+export const viewTestsPortal = (
+  isLocked: boolean,
+  showToast: (
+    message: string,
+    type: "success" | "error" | "info" | "warning"
+  ) => void
+) => {
+  if (isLocked) {
+    showToast("Access denied!", "error");
+    showToast("You have not completed all your modules!", "info");
+  } else {
+    // TODO: Redirect To Test Portal.
+  }
+};
+
+export default function Tests({ isLocked }: { isLocked: boolean }) {
   const searchParams = useSearchParams();
   const { showToast } = useToast();
 
@@ -37,27 +45,12 @@ export default function Tests({
       </div>
 
       <div className={`w-full mt-3`}>
-        <div className="w-full flex flex-col gap-4">
-          {tests.map((test) => {
-            return (
-              <TestCard
-                test={test}
-                showDetailsComponent={
-                  isLocked
-                    ? () => {
-                        showToast("Access denied!", "error");
-                        showToast(
-                          "You have not completed all your modules!",
-                          "info"
-                        );
-                      }
-                    : showDetailsComponent
-                }
-                key={test["testid"]}
-              />
-            );
-          })}
-        </div>
+        <PrimaryBtn
+          btnWidth="w-fit"
+          onClick={() => viewTestsPortal(isLocked, showToast)}
+          textContent="Open Test Portal"
+          type="button"
+        />
       </div>
     </section>
   );

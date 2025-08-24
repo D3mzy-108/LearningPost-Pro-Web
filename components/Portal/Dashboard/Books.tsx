@@ -10,19 +10,15 @@ export default function Books({
   showDetailsComponent: (child: React.ReactElement) => void;
 }) {
   return (
-    <section className="w-full py-4 md:px-2 lg:px-4 bg-transparent rounded-xl backdrop-blur-sm">
-      <h3 className="text-black text-xl font-bold w-full">
-        Learning Resources
-      </h3>
-
-      <div className="w-full mt-4 px-2">
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <section className="w-full md:px-2 lg:px-4 bg-transparent rounded-xl backdrop-blur-sm">
+      <div className="w-full px-2 overflow-auto">
+        <div className="w-fit mx-auto flex gap-4">
           {books.map((book) => {
             return (
               <button
                 type="button"
                 key={book["bookid"]}
-                className="cursor-pointer border-none bg-transparent text-start"
+                className="cursor-pointer border-none bg-transparent text-start min-w-72 max-w-72 sm:min-w-80 sm:max-w-80"
                 onClick={() =>
                   showDetailsComponent(<BookDetails book={book} />)
                 }
@@ -57,7 +53,7 @@ function BookCover({ book }: { book: any }) {
         {/* BOOK DETAILS */}
         <div className="w-full flex-1 flex flex-col gap-2">
           <legend
-            className="text-[18px] text-[#333]"
+            className="text-[18px] text-[#333] line-clamp-1"
             style={{ fontWeight: 600 }}
           >
             {book["title"]}

@@ -5,6 +5,7 @@
 
 :root {
   --primary: #6082B6;
+  --primaryTransparent: #6082b61c;
 }
 
 * {
@@ -14,6 +15,11 @@
 .min-height-screen {
   min-height: 100vh;
   min-height: 100dvh;
+}
+
+.max-height-screen {
+  max-height: 100vh;
+  max-height: 100dvh;
 }
 
 .selectable {

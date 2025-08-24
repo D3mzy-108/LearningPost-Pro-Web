@@ -18,12 +18,29 @@ export default function DashboardLayout({
 
   return (
     <div className="w-full">
-      <SideNavBar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className="w-full relative">
-        <div className="w-full sticky top-0 left-0 z-30">
-          <Header isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <div className="lg:hidden">
+        <SideNavBar
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
+      </div>
+      <div className="w-full flex divide-x">
+        <div className="w-fit max-lg:hidden">
+          <SideNavBar
+            isSidebarOpen={isSidebarOpen}
+            toggleSidebar={toggleSidebar}
+          />
         </div>
-        <LayoutChild>{children}</LayoutChild>
+        <div className="flex-1 w-full relative max-height-screen overflow-auto">
+          <div className="w-full z-30">
+            <Header
+              isSidebarOpen={isSidebarOpen}
+              toggleSidebar={toggleSidebar}
+            />
+          </div>
+
+          <LayoutChild>{children}</LayoutChild>
+        </div>
       </div>
     </div>
   );

@@ -2,9 +2,12 @@
 import { useToast } from "@/context/ToastContext";
 import { clearStorage, getStoredItem } from "@/utils/local_storage_utils";
 import { DOMAIN } from "@/utils/urls";
+import { BookIcon, ChartNoAxesCombined, LockIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { viewTestsPortal } from "./Tests";
 
 export interface SideBarProps {
   isSidebarOpen: boolean;
@@ -17,25 +20,47 @@ export default function SideNavBar({
 }: SideBarProps) {
   const router = useRouter();
   const { showToast } = useToast();
+  const searchParams = useSearchParams();
+  const [isTestLocked, setIsTestLocked] = useState(false);
+  const navItems = [
+    {
+      key: "dashboard",
+      name: "Dashboard",
+      icon: <ChartNoAxesCombined className="w-5 h-5 opacity-80" />,
+    },
+    {
+      key: "modules",
+      name: "Modules",
+      icon: <BookIcon className="w-5 h-5 opacity-80" />,
+    },
+  ];
 
   function getUserName(): string {
     const user = getStoredItem("user");
     if (user["first_name"] == null) return "";
-    return `${user.first_name.charAt(0)}. ${user.last_name}`;
+    return `${user.first_name} ${user.last_name.charAt(0)}.`;
   }
 
   function getTrack() {
     return getStoredItem("lessonTrackObj");
   }
 
+  function getTrackCode() {
+    return getStoredItem("lessonTrack");
+  }
+
+  useEffect(() => {
+    setIsTestLocked(getStoredItem("isTestLocked"));
+  }, []);
+
   return (
     <>
-      <div className="relative">
+      <div className="max-lg:relative lg:w-fit">
         {/* Sidebar */}
         <aside
-          className={`fixed inset-y-0 z-50 w-72 md:w-80 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${
+          className={`max-lg:fixed inset-y-0 z-50 w-72 md:w-80 max-lg:bg-white max-lg:shadow-lg transform transition-transform duration-300 ease-in-out ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+          } lg:translate-x-0`}
         >
           <div className="flex flex-col min-h-screen">
             {/* Sidebar Header */}
@@ -69,66 +94,41 @@ export default function SideNavBar({
 
             {/* Sidebar Navigation */}
             <nav className="flex-1 px-4 py-6 space-y-2">
-              <Link
-                href="#"
-                className="flex items-center px-4 py-3 text-blue-600 hover:text-blue-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-              >
-                <svg
-                  className="w-5 h-5 mr-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+              {navItems.map((item) => (
+                <Link
+                  key={item.key}
+                  href={`/portal/dashboard?tc=${getTrackCode() ?? ""}&page=${
+                    item.key
+                  }`}
+                  onClick={toggleSidebar}
+                  className={`flex gap-3 items-center px-4 py-3 ${
+                    searchParams.get("page") === item.key
+                      ? "text-blue-600 bg-blue-100"
+                      : "text-gray-700"
+                  } hover:bg-blue-50 rounded-lg transition-colors duration-200`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                  />
-                </svg>
-                Dashboard
-              </Link>
+                  {item.icon}
+                  {item.name}
+                </Link>
+              ))}
+
+              {/* LINK TO CERTIFICATION TESTS */}
               <Link
-                href="#"
-                className="flex items-center px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-              >
-                <svg
-                  className="w-5 h-5 mr-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h1"
-                  />
-                </svg>
-                Modules
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-              >
-                <svg
-                  className="w-5 h-5 mr-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                  />
-                </svg>
-                Learning Resources
-              </Link>
-              <a
-                href="#"
-                className="flex items-center px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                href={""}
+                target={isTestLocked ? undefined : "_blank"}
+                onClick={() => {
+                  if (isTestLocked) {
+                    showToast("Access denied!", "error");
+                    showToast(
+                      "You have not completed all your modules!",
+                      "info"
+                    );
+                    toggleSidebar();
+                  } else {
+                    viewTestsPortal(isTestLocked, showToast);
+                  }
+                }}
+                className="flex items-center p-4 text-gray-700 hover:bg-blue-50 rounded-lg transition-colors duration-200"
               >
                 <svg
                   className="w-5 h-5 mr-3"
@@ -143,69 +143,30 @@ export default function SideNavBar({
                     d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
                   />
                 </svg>
-                Certification Tests
-              </a>
-              {/* <a
-              href="#"
-              className="flex items-center px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-            >
-              <svg
-                className="w-5 h-5 mr-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 13l-3-3m0 0l-3 3m3-3v12"
-                />
-              </svg>
-              Reports
-            </a>
-            <a
-              href="#"
-              className="flex items-center px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-            >
-              <svg
-                className="w-5 h-5 mr-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.638 2.296.07 2.572-1.065z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-              Settings
-            </a> */}
+                <div className="flex-1">Certification Tests</div>
+                {isTestLocked && <LockIcon className="w-3 h-3 text-gray-600" />}
+              </Link>
             </nav>
 
             {/* Sidebar Footer */}
-            <div className="p-4 pb-8 border-t border-gray-200">
+            <div className="pt-6 px-4 pb-8 border-t border-gray-400">
               <div
-                className="flex items-center space-x-3"
+                className="flex items-center space-x-3 border-2 hover:bg-gray-100 rounded-2xl transition-colors duration-200 cursor-pointer p-4"
                 onClick={() => {
                   clearStorage();
                   router.push("/");
                   showToast("Logged out successfully", "info");
                 }}
               >
-                <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-medium text-gray-600">
-                    {getUserName().charAt(0)}.
-                  </span>
-                </div>
+                <Image
+                  src={`https://placehold.co/60x60/443333/EBEBEB?text=${getUserName().charAt(
+                    0
+                  )}`}
+                  alt="..."
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
                 <div>
                   <p className="text-sm font-medium text-gray-900">
                     {getUserName()}
@@ -220,7 +181,7 @@ export default function SideNavBar({
         {/* Overlay for mobile */}
         {isSidebarOpen && (
           <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
             onClick={toggleSidebar}
           ></div>
         )}

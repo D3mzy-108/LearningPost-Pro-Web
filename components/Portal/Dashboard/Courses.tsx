@@ -1,7 +1,6 @@
 import { DOMAIN } from "@/utils/urls";
 import React, { ReactElement } from "react";
 import QuestDetails from "../Quest/QuestDetails";
-import PrimaryBtn from "@/components/Buttons/PrimaryBtn";
 import Image from "next/image";
 
 export default function Courses({
@@ -12,11 +11,115 @@ export default function Courses({
   showDetailsComponent: (child: React.ReactElement) => void;
 }) {
   return (
-    <section className="w-full py-4 md:px-2 lg:px-4 bg-transparent rounded-xl backdrop-blur-sm">
-      <h3 className="text-black text-xl font-bold w-full">Modules</h3>
+    <section className="w-full px-2 md:px-4 lg:px-6 bg-transparent rounded-xl backdrop-blur-sm space-y-5">
+      <div className="w-full px-2 py-1 overflow-auto bg-gray-100 rounded-xl">
+        <table className="table-auto min-w-full">
+          <tbody className="divide-y-2 divide-y-black/60">
+            {quests.map((quest) => {
+              const answered = quest["answered_count"];
+              const questions = quest["question_count"];
+              function calculateProgress() {
+                if (answered == 0 || questions == 0) {
+                  return 0;
+                } else {
+                  try {
+                    return Math.floor((answered / questions) * 100);
+                  } catch (error) {
+                    return 0;
+                  }
+                }
+              }
+              const progress = calculateProgress();
+              function getProgressColor() {
+                if (progress >= 70) {
+                  return "greenyellow";
+                } else if (progress >= 50) {
+                  return "yellow";
+                } else if (progress >= 20) {
+                  return "orange";
+                } else {
+                  return "red";
+                }
+              }
 
-      <div className="w-full mt-4 px-2">
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              return (
+                <tr key={quest["testid"]}>
+                  <td className="text-start px-2 sm:px-4 py-[0.85rem] min-w-60">
+                    <div className="w-full flex items-center gap-4">
+                      <Image
+                        src={`${DOMAIN}${quest["cover"]}`}
+                        alt="Course Logo"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            "https://placehold.co/50x50/F3EFE3/333333?text=";
+                        }} // Fallback image
+                        width={55}
+                        height={55}
+                        className="rounded-lg"
+                      />
+                      <div className="flex-1 line-clamp-1 text-black">
+                        {quest["title"]}
+                      </div>
+                    </div>
+                  </td>
+                  <td className="text-center text-sm md:text-md px-2 sm:px-4 py-[0.85rem] min-w-32">
+                    {questions} <span className="">Questions</span>
+                  </td>
+                  <td className="text-center text-sm md:text-md px-2 sm:px-4 py-[0.85rem] min-w-32">
+                    <div className="w-full flex justify-center gap-2 items-center">
+                      <span>{progress}%</span>
+                      <div
+                        className={`w-10 h-3 rounded-full`}
+                        style={{
+                          background: `linear-gradient(to right, ${getProgressColor()} 0% ${
+                            progress > 10 ? `${progress}%` : "10%"
+                          }, #FFFFFF90 ${
+                            progress > 10 ? `${progress}%` : "10%"
+                          } 100%)`,
+                        }}
+                      ></div>
+                    </div>
+                  </td>
+                  <td className="text-end px-2 sm:px-4 py-[0.85rem] min-w-32">
+                    <button
+                      className="px-3 py-3 rounded-full text-sm border-none w-28"
+                      style={{
+                        backgroundColor: "var(--primaryTransparent)",
+                        color: "var(--primary)",
+                        cursor: "pointer",
+                        transition:
+                          "background-color 0.35s ease-in-out, transform 0.1s ease-in-out",
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.backgroundColor =
+                          "var(--primary)";
+                        e.currentTarget.style.color = "white";
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.backgroundColor =
+                          "var(--primaryTransparent)";
+                        e.currentTarget.style.color = "var(--primary)";
+                      }}
+                      onMouseDown={(e) =>
+                        (e.currentTarget.style.transform = "scale(0.98)")
+                      }
+                      onMouseUp={(e) =>
+                        (e.currentTarget.style.transform = "scale(1)")
+                      }
+                      onClick={() => {
+                        showDetailsComponent(<QuestDetails quest={quest} />);
+                      }}
+                    >
+                      {progress > 0 ? "Continue" : "Start Lesson"}
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+
+        {/* <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {quests.map((quest) => {
             return (
               <CourseCard
@@ -26,7 +129,7 @@ export default function Courses({
               />
             );
           })}
-        </div>
+        </div> */}
       </div>
     </section>
   );
@@ -56,6 +159,7 @@ function CourseCard({
   const progress = calculateProgress();
 
   const otherCardData = (): ReactElement => {
+    // TODO: Make modules display as list on desktop screen.
     return (
       <div className="w-full flex flex-col gap-2 mt-2">
         <div className="w-full">

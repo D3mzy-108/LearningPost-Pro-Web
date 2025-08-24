@@ -2,17 +2,18 @@
 import { getStoredItem } from "@/utils/local_storage_utils";
 import Link from "next/link";
 import { SideBarProps } from "./SideBar";
+import Image from "next/image";
 
 export default function Header({ isSidebarOpen, toggleSidebar }: SideBarProps) {
   function getUserName(): string {
     const user = getStoredItem("user");
     if (user["first_name"] == null) return "";
-    return `${user.first_name.charAt(0)}. ${user.last_name}`;
+    return `${user.first_name} ${user.last_name.charAt(0)}.`;
   }
 
   return (
     <>
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
+      <header className="bg-gray-100 border-b border-gray-400 pr-3 sm:px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Mobile menu button */}
           <button
@@ -36,7 +37,7 @@ export default function Header({ isSidebarOpen, toggleSidebar }: SideBarProps) {
 
           <Link href={"/portal"}>
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 bg-gray-100 px-3 py-2 rounded-lg">
+              <div className="flex items-center space-x-2 bg-gray-200 px-3 py-2 rounded-lg border-b-2 border-b-gray-400">
                 <svg
                   className="w-4 h-4 text-gray-600"
                   fill="none"
@@ -58,10 +59,16 @@ export default function Header({ isSidebarOpen, toggleSidebar }: SideBarProps) {
           </Link>
 
           <div className="w-fit min-w-[50px]">
-            <div className="w-fit max-w-[160px] p-1 border border-black/30 rounded-full flex items-center max-md:hidden">
-              <div className="w-fit px-[0.5rem] aspect-square rounded-full bg-black/80 grid place-items-center text-white/90 font-bold text-md shadow-sm">
-                {getUserName().charAt(0)}
-              </div>
+            <div className="w-fit p-1 border border-black/30 rounded-full flex items-center">
+              <Image
+                src={`https://placehold.co/60x60/443333/EBEBEB?text=${getUserName().charAt(
+                  0
+                )}`}
+                alt="..."
+                width={32}
+                height={32}
+                className="rounded-full"
+              />
               <div
                 className="flex-1 truncate text-xs font-normal px-2"
                 style={{
