@@ -2,6 +2,7 @@
 export const DOMAIN = "https://api.learningpost.ng";
 export const LOGIN_URL = `${DOMAIN}/professional/professional-login/`;
 export const SIGNUP_URL = `${DOMAIN}/professional/professional-signup/`;
+export const UPDATE_PRO_USER_PROFILE_URL = `${DOMAIN}/professional/user-profile/update/`;
 export const JOIN_ORGANIZATION_URL = `${DOMAIN}/professional/add-learning-track/`;
 export const LEARNING_TRACKS = (username: string) => {
   return `${DOMAIN}/professional/get-learning-tracks/${username}/`;

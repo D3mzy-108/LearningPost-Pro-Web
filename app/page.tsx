@@ -31,7 +31,11 @@ export default function Home() {
 
       if (data.success) {
         storeItem("user", data.data.user);
-        router.push("/portal");
+        if (data.data.render_edit_profile) {
+          router.push("/complete-profile");
+        } else {
+          router.push("/portal");
+        }
       }
     } catch (e) {
       showToast("Failed to connect to service provider.", "error");
