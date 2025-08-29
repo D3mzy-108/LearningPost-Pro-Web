@@ -8,7 +8,11 @@ export default function Header({ isSidebarOpen, toggleSidebar }: SideBarProps) {
   function getUserName(): string {
     const user = getStoredItem("user");
     if (user["first_name"] == null) return "";
-    return `${user.first_name} ${user.last_name.charAt(0)}.`;
+    return `${user.first_name} ${
+      user.last_name !== null && user.last_name.length > 0
+        ? user.last_name.charAt(0)
+        : ""
+    }.`;
   }
 
   return (
