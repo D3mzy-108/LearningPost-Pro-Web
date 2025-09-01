@@ -156,8 +156,8 @@ export default function Dashboard() {
                 tests.filter((test) => !test["is_attempted"]).length
               }
             />
-            <div className="w-full space-y-6">
-              <h3 className="text-black text-xl font-bold w-full lg:pl-4">
+            <div className="w-full space-y-4">
+              <h3 className="text-black text-lg font-bold w-full lg:pl-4">
                 Continue Learning :
               </h3>
               <Courses
@@ -174,7 +174,7 @@ export default function Dashboard() {
         )}
         {getPageType() === "modules" && (
           <div className="w-full p-3 space-y-4 mt-3">
-            <h3 className="text-black text-xl font-bold w-full lg:pl-4">
+            <h3 className="text-black text-lg font-bold w-full lg:pl-4">
               Your Modules :
             </h3>
             <div className="w-full flex flex-col gap-8">
