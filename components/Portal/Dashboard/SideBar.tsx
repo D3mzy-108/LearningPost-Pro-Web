@@ -117,22 +117,11 @@ export default function SideNavBar({
               ))}
 
               {/* LINK TO CERTIFICATION TESTS */}
-              <Link
-                href={""}
-                target={isTestLocked ? undefined : "_blank"}
+              <button
                 onClick={() => {
-                  if (isTestLocked) {
-                    showToast("Access denied!", "error");
-                    showToast(
-                      "You have not completed all your modules!",
-                      "info"
-                    );
-                    toggleSidebar();
-                  } else {
-                    viewTestsPortal(isTestLocked, showToast);
-                  }
+                  viewTestsPortal(isTestLocked, showToast);
                 }}
-                className="flex items-center p-4 text-gray-700 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                className="w-full text-start flex items-center p-4 text-gray-700 hover:bg-blue-50 rounded-lg transition-colors duration-200"
               >
                 <svg
                   className="w-5 h-5 mr-3"
@@ -149,7 +138,7 @@ export default function SideNavBar({
                 </svg>
                 <div className="flex-1">Certification Tests</div>
                 {isTestLocked && <LockIcon className="w-3 h-3 text-gray-600" />}
-              </Link>
+              </button>
             </nav>
 
             {/* Sidebar Footer */}

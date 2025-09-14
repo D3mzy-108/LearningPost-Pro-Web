@@ -5,7 +5,7 @@ import QuizScreen, {
 import { useToast } from "@/context/ToastContext";
 import http from "@/utils/http";
 import { getStoredItem } from "@/utils/local_storage_utils";
-import { GET_TEST_QUESTIONS } from "@/utils/urls";
+import { START_TEST } from "@/utils/urls";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -35,7 +35,9 @@ export default function TakeTest() {
     }
 
     async function fetchQuestions() {
-      const response = await http.get(GET_TEST_QUESTIONS(__testId ?? ""));
+      const response = await http.get(
+        START_TEST(__testId ?? "", getStoredItem("user").username ?? "")
+      );
       if (response.success) {
         if (response.data.questions.length === 0) {
           router.push("/portal");

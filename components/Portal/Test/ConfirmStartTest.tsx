@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation";
 export default function ConfirmStartTest({ test }: { test: any }) {
   const router = useRouter();
   function startTest() {
-    router.push(`/portal/take-test?id=${test["testid"]}&time=${test["time"]}`);
+    router.push(
+      `/certification-tests/take-test?id=${test["testid"]}&time=${test["time"]}`
+    );
   }
 
   return (
     <>
-      <div className="w-full flex flex-col gap-4 text-center">
+      <div className="w-full flex flex-col gap-4 text-center p-6 md:p-8">
         <h3 className="text-red-600 text-2xl font-bold">Important Info!</h3>
         <p className="text-black/80">
           {

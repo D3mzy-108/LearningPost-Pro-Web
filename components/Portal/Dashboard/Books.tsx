@@ -11,14 +11,14 @@ export default function Books({
 }) {
   return (
     <section className="w-full md:px-2 lg:px-4 bg-transparent rounded-xl backdrop-blur-sm">
-      <div className="w-full px-2 overflow-auto">
-        <div className="w-fit mx-auto flex gap-4">
+      <div className="w-full px-2">
+        <div className="w-fit grid grid-cols-1 md:grid-cols-2 gap-4">
           {books.map((book) => {
             return (
               <button
                 type="button"
                 key={book["bookid"]}
-                className="cursor-pointer border-none bg-transparent text-start min-w-72 max-w-72 sm:min-w-80 sm:max-w-80"
+                className="cursor-pointer border-none bg-transparent text-start min-w-72 w-full sm:min-w-80"
                 onClick={() =>
                   showDetailsComponent(<BookDetails book={book} />)
                 }
@@ -35,7 +35,7 @@ export default function Books({
 
 function BookCover({ book }: { book: any }) {
   return (
-    <div className="bg-white/30 w-full p-4 rounded-xl border border-gray-300">
+    <div className="bg-white/30 w-full p-3 rounded-xl border border-gray-300">
       <div className="w-full flex items-center gap-4">
         {/* BOOK COVER */}
         <Image
@@ -45,27 +45,27 @@ function BookCover({ book }: { book: any }) {
             (e.target as HTMLImageElement).src =
               "https://placehold.co/50x50/EEE/333333?text=";
           }}
-          width={80}
+          width={50}
           height={0}
           className="aspect-[4/6] rounded-[8px]"
         />
 
         {/* BOOK DETAILS */}
-        <div className="w-full flex-1 flex flex-col gap-2">
+        <div className="w-full flex-1 flex flex-col gap-1">
           <legend
-            className="text-[18px] text-[#333] line-clamp-1"
+            className="text-[#333] line-clamp-1"
             style={{ fontWeight: 600 }}
           >
             {book["title"]}
           </legend>
-          <span className="text-black/50 text-sm">{book["author"]}</span>
+          <span className="text-black/50 text-xs">{book["author"]}</span>
 
           {/* BOOK TAGS */}
           <div className="w-full flex flex-wrap gap-2">
-            <div className="w-fit bg-blue-600/10 text-blue-600 rounded-full text-xs py-1 px-3">
+            <div className="w-fit bg-blue-600/10 text-blue-600 rounded-full text-[10px] py-1 px-3">
               E-Book
             </div>
-            <div className="w-fit bg-blue-600/10 text-blue-600 rounded-full text-xs py-1 px-3">
+            <div className="w-fit bg-blue-600/10 text-blue-600 rounded-full text-[10px] py-1 px-3">
               EPUB
             </div>
           </div>

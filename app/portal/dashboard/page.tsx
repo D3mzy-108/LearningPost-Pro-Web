@@ -98,10 +98,19 @@ export default function Dashboard() {
     let answeredQuestionsCountList = quests.map(
       (quest) => quest["answered_count"] as number
     );
-    return answeredQuestionsCountList.reduce(
-      (accumulator, currentValue) => accumulator + currentValue,
-      0
+    let questionsCountList = quests.map(
+      (quest) => quest["question_count"] as number
     );
+    return {
+      questions: questionsCountList.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0
+      ),
+      answered: answeredQuestionsCountList.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0
+      ),
+    };
   }
 
   function getAvgProgress() {
@@ -150,7 +159,8 @@ export default function Dashboard() {
           <div className="w-full p-3 lg:p-4 mt-3 flex flex-col gap-6">
             <DashboardSummary
               moduleCount={quests.length}
-              questionsAnsweredCount={getAttemptedQuestionsCount()}
+              questionsAnsweredCount={getAttemptedQuestionsCount().answered}
+              ttlQuestionsCount={getAttemptedQuestionsCount().questions}
               avgProgress={getAvgProgress()}
               pendingTestCount={
                 tests.filter((test) => !test["is_attempted"]).length

@@ -8,11 +8,13 @@ import {
 export default function DashboardSummary({
   moduleCount,
   questionsAnsweredCount,
+  ttlQuestionsCount,
   avgProgress,
   pendingTestCount,
 }: {
   moduleCount: number;
   questionsAnsweredCount: number;
+  ttlQuestionsCount: number;
   avgProgress: number;
   pendingTestCount: number;
 }) {
@@ -41,6 +43,10 @@ export default function DashboardSummary({
           <div className="pl-1">
             <p className="text-2xl font-bold text-gray-800">
               {questionsAnsweredCount}
+              <span className="text-sm text-gray-600">
+                {" / "}
+                {ttlQuestionsCount}
+              </span>
             </p>
           </div>
         </div>

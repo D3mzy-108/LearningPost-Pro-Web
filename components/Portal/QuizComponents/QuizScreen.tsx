@@ -102,6 +102,30 @@ export default function QuizScreen({
    * Saves the quiz progress or test score to the backend.
    * Navigates to results or portal page after saving.
    */
+
+  const uploadTestScore = useCallback(async () => {
+    const user = getStoredItem("user");
+    const totalQuestions = questions.length;
+    const score =
+      totalQuestions > 0
+        ? Math.floor((questionsPassed.length / totalQuestions) * 100)
+        : 0;
+    try {
+      const response = await http.post(SAVE_TEST_SCORE(testId, user.username), {
+        score: `${score}`,
+      });
+      if (!response.success) {
+        console.log(response);
+        return [false, "Failed to save test score. Connection Interrupted!"];
+      } else {
+        return [true, "Your test attempt has been recorded."];
+      }
+    } catch (error) {
+      console.error("Error saving CBT test score:", error);
+      return [false, "Failed to save test score."];
+    }
+  }, [questions.length, questionsPassed.length, testId]);
+
   const saveProgress = useCallback(async () => {
     const user = getStoredItem("user"); // Get user data from local storage
     if (!user?.username) {
@@ -140,30 +164,16 @@ export default function QuizScreen({
       // CBT mode: Save test score
       console.log("Saving CBT test score...");
       // const totalQuestions = questionsPassed.length + questionsFailed.length;
-      const totalQuestions = questions.length;
-      const score =
-        totalQuestions > 0
-          ? Math.floor((questionsPassed.length / totalQuestions) * 100)
-          : 0;
-      try {
-        const response = await http.post(
-          SAVE_TEST_SCORE(testId, user.username),
-          {
-            score: `${score}`,
-          }
-        );
-        if (!response.success) {
-          showToast(
-            "Failed to save test score. Connection Interrupted!",
-            "error"
-          );
-        } else {
-          showToast("Your test attempt has been recorded.", "info");
-        }
-      } catch (error) {
-        console.error("Error saving CBT test score:", error);
-        showToast("Failed to save test score.", "error");
+      const [success, message] = await uploadTestScore();
+      if (!success) {
+        showToast(message.toString(), "error");
+        showToast("Trying again...", "info");
+        setTimeout(() => {
+          saveProgress();
+        }, 4000);
+        return;
       }
+      showToast(message.toString(), "info");
       // Navigate to portal after CBT submission
       router.push(`/portal`);
     }
@@ -174,7 +184,7 @@ export default function QuizScreen({
     questionsFailed,
     router,
     testId,
-    questions.length,
+    uploadTestScore,
   ]); // Dependencies for saveProgress
 
   /**
@@ -187,6 +197,7 @@ export default function QuizScreen({
       console.log(
         `QuizScreen: handleNextQuestion called for Q index ${currentQuestionIndex}. Question ID passed: ${questionId}`
       );
+      uploadTestScore();
 
       if (questionId !== null) {
         // Question answered correctly
@@ -221,7 +232,7 @@ export default function QuizScreen({
         `QuizScreen: Moving to next index: ${currentQuestionIndex + 1}.`
       );
     },
-    [currentQuestionIndex, questions] // Dependencies for handleNextQuestion
+    [currentQuestionIndex, questions, uploadTestScore] // Dependencies for handleNextQuestion
   );
 
   const handleFinishQuiz = useCallback(() => {
