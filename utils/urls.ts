@@ -1,5 +1,5 @@
-export const DOMAIN = "http://localhost:2002";
-// export const DOMAIN = "https://api.learningpost.ng";
+// export const DOMAIN = "http://localhost:2002";
+export const DOMAIN = "https://api.learningpost.ng";
 export const LOGIN_URL = `${DOMAIN}/professional/professional-login/`;
 export const SIGNUP_URL = `${DOMAIN}/professional/professional-signup/`;
 export const UPDATE_PRO_USER_PROFILE_URL = `${DOMAIN}/professional/user-profile/update/`;
