@@ -11,7 +11,8 @@ export const viewTestsPortal = (
     type: "success" | "error" | "info" | "warning"
   ) => void
 ) => {
-  if (isLocked) {
+  const user = getStoredItem("user");
+  if (isLocked && !user.hasUnrestrictedAccess) {
     showToast("Access denied!", "error");
     showToast("You have not completed all your modules!", "info");
   } else {
